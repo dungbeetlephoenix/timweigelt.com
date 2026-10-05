@@ -1,0 +1,12 @@
+# Track only the production source; keep drafts and generated output local.
+/*
+!/.gitignore
+!/index.html
+!/about.html
+!/style.css
+!/prepare-public.py
+!/favicon-unset.svg
+!/favicon-earth.svg
+!/favicon-earth.ico
+!/favicon.ico
+!/apple-touch-icon-earth.png

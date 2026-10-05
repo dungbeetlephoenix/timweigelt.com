@@ -45,7 +45,9 @@ for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-ea
 </body>
 </html>
 ''')
+# Preserve approved HTML, including mailto links, through Cloudflare's edge.
 (public / "_headers").write_text(f'''/*
+  Cache-Control: public, max-age=0, must-revalidate, no-transform
   Content-Security-Policy: default-src 'none'; style-src {style_sources}; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY

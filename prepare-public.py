@@ -1,5 +1,5 @@
 from pathlib import Path
-from html import escape
+import base64
 import re
 import zipfile
 import hashlib
@@ -7,25 +7,20 @@ import hashlib
 root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
-style_version = hashlib.sha256((root / "style.css").read_bytes()).hexdigest()[:12]
 allowed = {"index.html", "about.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
 unexpected = {p.name for p in public.iterdir()} - allowed
 if unexpected:
     raise SystemExit(f"Unexpected publication files: {sorted(unexpected)}")
 
-# Only these source files are public. Never copy the surrounding draft folder.
-for name, path, title in [("index.html", "/", "Tim Weigelt"), ("about.html", "/about", "About — Tim Weigelt")]:
-    source = (root / name).read_text()
-    source = source.replace('  <meta name="robots" content="noindex, nofollow">\n', '')
-    source = source.replace('href="index.html"', 'href="/"').replace('href="about.html"', 'href="/about"').replace('href="style.css"', f'href="/style.css?v={style_version}"')
-    description = re.search(r'<meta name="description" content="([^"]+)"', source).group(1)
-    metadata = f'''  <link rel="canonical" href="https://timweigelt.com{path}">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{escape(title, quote=True)}">
-  <meta property="og:description" content="{description}">
-  <meta property="og:url" content="https://timweigelt.com{path}">
-'''
-    (public / name).write_text(source.replace('</head>', metadata + '</head>'))
+# The approved pages are already publication-ready. Preserve their exact bytes.
+style_hashes = set()
+for name in ("index.html", "about.html"):
+    source = (root / name).read_bytes()
+    (public / name).write_bytes(source)
+    for css in re.findall(rb"<style>(.*?)</style>", source, re.DOTALL):
+        digest = base64.b64encode(hashlib.sha256(css).digest()).decode("ascii")
+        style_hashes.add(f"'sha256-{digest}'")
+style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
 for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
@@ -50,8 +45,8 @@ for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-ea
 </body>
 </html>
 ''')
-(public / "_headers").write_text('''/*
-  Content-Security-Policy: default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
+(public / "_headers").write_text(f'''/*
+  Content-Security-Policy: default-src 'none'; style-src {style_sources}; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
@@ -79,6 +74,7 @@ Sitemap: https://timweigelt.com/sitemap.xml
 ''')
 assert {p.name for p in public.iterdir()} == allowed
 for name in ("index.html", "about.html"):
+    assert (public / name).read_bytes() == (root / name).read_bytes()
     text = (public / name).read_text()
     assert 'noindex' not in text
     assert 'localhost' not in text

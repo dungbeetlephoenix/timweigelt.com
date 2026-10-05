@@ -4,13 +4,142 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161514" media="(prefers-color-scheme: dark)">
   <meta name="description" content="Tim Weigelt. I make things and ride bikes. Boulder Roller and Ultralight.">
   <title>Tim Weigelt</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      color-scheme: light dark;
+      /* A hair warm of white; every neutral sits on the same warm axis. */
+      --paper: #fcfbf9;
+      --ink: #22211e;
+      --muted: #6b6963;
+      --link: #2f5a82;
+      --rule: #aebecc;
+      --select: #d6e0ea;
+      --serif: Charter, "Bitstream Charter", "Charis SIL", "Sitka Text", Cambria, Georgia, serif;
+      /* One rhythm: every line box is --lh, every gap is a multiple of --u. */
+      --lh: 1.5rem;
+      --u: calc(var(--lh) / 2);
+      --small: 0.875rem;
+      --measure: 32rem;
+      --hang: 3.375rem;
+      --gutter: clamp(1rem, 6vw, 1.5rem);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #161514;
+        --ink: #e2dfd8;
+        --muted: #9c988e;
+        --link: #9fb9d5;
+        --rule: #535f6b;
+        --select: #33414f;
+      }
+      /* Light type on a dark ground blooms; thin the rendering and open the tracking a hair. */
+      body {
+        letter-spacing: 0.006em;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html {
+      font-size: 106.25%;
+      background: var(--paper);
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1rem;
+      line-height: var(--lh);
+      font-kerning: normal;
+    }
+    ::selection { background: var(--select); color: var(--ink); }
+    main {
+      box-sizing: content-box;
+      max-width: var(--measure);
+      padding: calc(var(--lh) * 3) var(--gutter);
+      padding-left: max(var(--gutter), (100% - var(--measure)) * 0.382);
+    }
+    h1 { margin: 0; font: inherit; font-weight: 700; }
+    p { margin: 0; }
+    header { text-wrap: pretty; }
+    .elsewhere {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 1.25em;
+      margin-top: var(--u);
+    }
+    .index, .prose { margin-top: calc(var(--u) * 3); }
+    .work { list-style: none; margin: 0; padding: 0; }
+    .work > li {
+      display: grid;
+      grid-template-columns: var(--hang) minmax(0, 1fr);
+      align-items: baseline;
+    }
+    .work > li + li { margin-top: calc(var(--u) * 2); }
+    .year, .description { color: var(--muted); font-size: var(--small); }
+    .year { font-variant-numeric: lining-nums tabular-nums; }
+    .prose p { text-wrap: pretty; }
+    .prose p + p { margin-top: var(--u); }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+    a {
+      color: var(--link);
+      text-decoration-line: underline;
+      text-decoration-color: var(--rule);
+      text-decoration-thickness: max(1px, 0.06em);
+      text-underline-offset: 0.22em;
+      text-decoration-skip-ink: auto;
+      -webkit-tap-highlight-color: transparent;
+      transition: text-decoration-color 140ms ease-out;
+    }
+    @media (hover: hover) {
+      a:hover { text-decoration-color: currentColor; }
+    }
+    a:active { text-decoration-color: currentColor; }
+    a:focus-visible {
+      outline: 2px solid var(--link);
+      outline-offset: 0.2em;
+      border-radius: 2px;
+      text-decoration-color: currentColor;
+    }
+    /* Short standalone links get a finger-sized target without moving a pixel of type. */
+    .elsewhere a, .work a { position: relative; }
+    .elsewhere a::after, .work a::after { content: ""; position: absolute; inset: -0.4em -0.3em; }
+    @media (min-width: 52em) {
+      :root { --hang: 3.75rem; }
+      html { font-size: 112.5%; }
+      main { padding-top: calc(var(--lh) * 4); }
+      /* Years hang in the margin: name, bio, links and project names share one left edge. */
+      .work > li { margin-left: calc(var(--hang) * -1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      a { transition: none; }
+    }
+  </style>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
+  <link rel="canonical" href="https://timweigelt.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Tim Weigelt">
+  <meta property="og:description" content="Tim Weigelt. I make things and ride bikes. Boulder Roller and Ultralight.">
+  <meta property="og:url" content="https://timweigelt.com/">
 </head>
 <body>
   <main class="home">
@@ -18,9 +147,9 @@
       <h1>Tim Weigelt</h1>
       <p class="bio">I make things and ride bikes.</p>
       <nav class="elsewhere" aria-label="Main navigation">
-        <!--email_off--><a href="mailto:me@timweigelt.com">Email</a><!--/email_off-->
+        <a href="mailto:me@timweigelt.com">Email</a>
         <a href="https://github.com/dungbeetlephoenix">GitHub</a>
-        <a href="about.html">About</a>
+        <a href="/about">About</a>
       </nav>
     </header>
     <section class="index" aria-label="Selected projects">
@@ -29,7 +158,7 @@
           <span class="year"><span class="visually-hidden">Started in </span>2024<span aria-hidden="true">–</span><span class="visually-hidden">, ongoing</span></span>
           <div>
             <a href="https://boulderroller.xyz/">Boulder Roller</a>
-            <p class="description">Rides, climbs, and results.</p>
+            <p class="description">An open protocol to pay riders.</p>
           </div>
         </li>
         <li>

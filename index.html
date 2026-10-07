@@ -10,7 +10,9 @@
   <title>Tim Weigelt</title>
   <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/ultralight.css">
   <script src="/preview.js" defer></script>
+  <script src="/ultralight.js" type="module"></script>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
@@ -58,10 +60,10 @@
               <p class="description">A native Mac music player with FLAC, automatic per-song EQ, and a live spectrum.</p>
             </div>
             <figure>
-              <button class="artifact player-artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge Ultralight interface preview">
+              <button class="artifact player-artifact" type="button" data-player aria-haspopup="dialog" aria-label="Explore the Ultralight interface">
                 <img class="player" src="/assets/ultralight-native.png" width="2700" height="1482" alt="Ultralight’s native Mac interface, paused with its music library, per-song equalizer, audio analysis, and waveform visible." loading="lazy">
               </button>
-              <figcaption>Executable under 300 KB</figcaption>
+              <figcaption class="player-caption"><span>Executable under 300 KB</span><button type="button" data-player>Try the UI <span aria-hidden="true">↗</span></button></figcaption>
             </figure>
           </div>
         </li>
@@ -79,16 +81,63 @@
     <button class="preview-close" type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
     <p class="visually-hidden" id="terrain-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
-  <div class="detail-preview player-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight interface preview">
-    <div class="inspection-frame">
-      <img src="/assets/ultralight-native.png" width="2700" height="1482" alt="A paused render of Ultralight’s native Mac interface, using a real music library, waveform, and saved per-song EQ.">
+  <dialog class="ultralight-dialog" aria-label="Ultralight interactive interface study" aria-describedby="ultralight-note">
+    <div class="ultralight-context"><p id="ultralight-note">Interface study · no audio</p><button type="button" class="ultralight-dismiss" aria-label="Close interface study" title="Close (Esc)"><span aria-hidden="true">×</span></button></div>
+    <div class="native-object">
+      <div class="native-plane">
+        <img class="native-frame" src="/assets/ultralight-native.png" width="2700" height="1482" alt="Ultralight’s native Mac interface: the music library, eight-band EQ, analysis, waveform, and playback controls." draggable="false">
+        <button class="native-hit native-window-close" type="button" aria-label="Close window" title="Close"></button>
+        <button class="native-hit native-window-minimize" type="button" aria-label="Minimize window" title="Minimize"></button>
+        <button class="native-hit native-window-enlarge" type="button" aria-label="Enlarge window" title="Enlarge"></button>
+        <div class="native-title" hidden>Beach House – 10 – Irene</div>
+        <button class="native-hit native-settings-button" type="button" aria-label="Settings" aria-haspopup="dialog" aria-expanded="false" title="Settings"></button>
+        <div class="native-track-count">10 tracks</div>
+        <div class="native-library" role="listbox" aria-label="Music library"></div>
+        <section class="native-eq" aria-label="Equalizer">
+          <button class="native-eq-button native-auto" type="button" aria-label="Automatic EQ" aria-pressed="true" title="Toggle automatic EQ">AUTO</button>
+          <button class="native-eq-button native-reset" type="button" aria-label="Reset equalizer" title="Reset EQ">RST</button>
+          <button class="native-eq-button native-save" type="button" aria-label="Save equalizer" title="Save EQ">SAVE</button>
+          <div class="native-eq-paint" hidden></div>
+          <div class="native-eq-inputs"></div>
+          <input class="native-preamp" type="range" min="-12" max="12" step="0.5" value="0" aria-label="Preamp" title="Preamp">
+          <div class="native-preamp-paint" hidden><span>PRE</span><i></i><output>+0</output></div>
+          <div class="native-analysis-paint" hidden><div class="native-analysis-content"><p class="native-analysis-reason"></p><div class="native-analysis-badges"></div><p class="native-analysis-stats"></p></div></div>
+        </section>
+        <div class="native-eq-cover" hidden></div>
+        <div class="native-waveform" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="414.464" aria-valuenow="0" aria-valuetext="0 minutes 0 seconds"></div>
+        <div class="native-elapsed" hidden>0:00</div>
+        <div class="native-duration" hidden>6:54</div>
+        <div class="native-controls">
+          <button class="native-hit native-shuffle" type="button" aria-label="Shuffle" aria-pressed="false" title="Shuffle"><span hidden>⤮</span></button>
+          <button class="native-hit native-repeat" type="button" aria-label="Repeat" aria-pressed="false" title="Repeat"><span hidden>↻</span></button>
+          <button class="native-hit native-previous" type="button" aria-label="Previous track" title="Previous track"></button>
+          <button class="native-hit native-play" type="button" aria-label="Play button state" aria-pressed="false" title="Preview play button"><span hidden>⏸</span></button>
+          <button class="native-hit native-next" type="button" aria-label="Next track" title="Next track"></button>
+          <button class="native-hit native-show-eq" type="button" aria-label="Show equalizer" aria-pressed="true" title="Show or hide EQ"></button>
+        </div>
+        <input class="native-volume" type="range" min="0" max="100" value="80" aria-label="Volume" title="Volume">
+        <div class="native-volume-paint" hidden><i></i><output>80%</output></div>
+      </div>
     </div>
-    <div class="preview-footer">
-      <p>Ultralight</p>
-      <button type="button" data-fit hidden>Full view</button>
+    <div class="ultralight-afterword"><button type="button" data-reset-study>Reset study</button></div>
+    <div class="native-settings" role="dialog" aria-modal="true" aria-labelledby="native-settings-title" hidden>
+      <div class="native-settings-titlebar"><button type="button" data-settings-close aria-label="Close settings">×</button><h2 id="native-settings-title">Settings</h2></div>
+      <div class="native-settings-tabs" role="tablist" aria-label="Settings sections"><button type="button" role="tab" id="library-tab" aria-controls="library-settings" aria-selected="true">LIBRARY</button><button type="button" role="tab" id="flair-tab" aria-label="Glider" aria-controls="flair-settings" aria-selected="false" tabindex="-1"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m2 10 16-6-6 14-3-6Z"/><path d="m9 12 9-8"/></svg></button></div>
+      <div class="native-settings-content" role="tabpanel" id="library-settings" aria-labelledby="library-tab"><h3>MUSIC FOLDERS</h3><div class="native-folders"><span>Music / Beach House / Bloom</span><button type="button" data-folder-remove aria-label="Remove folder">✕</button></div><button type="button" class="native-add-folder">ADD FOLDER</button></div>
+      <div class="native-flair" role="tabpanel" id="flair-settings" aria-labelledby="flair-tab" hidden>
+        <div class="native-glider-stage" role="slider" tabindex="0" aria-label="Glider bank" aria-orientation="horizontal" aria-valuemin="-15" aria-valuemax="15" aria-valuenow="0" aria-valuetext="Level" aria-describedby="glider-hint">
+          <svg class="native-airspace" viewBox="0 0 350 190" aria-hidden="true">
+            <defs><linearGradient id="air-fade"><stop offset="0" stop-color="#62748b" stop-opacity="0"/><stop offset=".24" stop-color="#62748b" stop-opacity=".34"/><stop offset=".7" stop-color="#62748b" stop-opacity=".2"/><stop offset="1" stop-color="#62748b" stop-opacity="0"/></linearGradient><radialGradient id="glider-shadow"><stop stop-color="#000" stop-opacity=".8"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="paper-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".12"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient></defs>
+            <g class="native-wind-lines"><path/><path/><path/><path/></g>
+            <ellipse class="native-flight-shadow" cx="175" cy="156" rx="67" ry="9" fill="url(#glider-shadow)"/>
+            <g class="native-folded-glider"></g>
+          </svg>
+        </div>
+        <div class="native-flair-controls"><div class="native-lift"><label for="native-lift">LIFT</label><input id="native-lift" type="range" min="0" max="100" value="30" aria-label="Glider lift"><output for="native-lift">30%</output></div><button type="button" class="native-gust" aria-label="Send a gust of wind"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M2 5h14a3 3 0 1 0-3-3M2 9h18M5 13h9a2 2 0 1 1-2 2"/></svg></button></div>
+        <p class="visually-hidden" id="glider-hint">Drag to bank. Release to glide. Arrow keys steer, Home levels the wings, and Space sends a gust of wind.</p>
+      </div>
+      <div class="native-folder-menu" hidden><p>Choose a music folder</p><button type="button" data-folder-add>Music / Beach House / Bloom</button><button type="button" data-folder-cancel>Cancel</button></div>
     </div>
-    <button class="preview-close" type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
-    <p class="visually-hidden" id="player-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
-  </div>
+  </dialog>
 </body>
 </html>

@@ -73,7 +73,7 @@
     });
   };
 
-  for (const trigger of document.querySelectorAll(".artifact")) {
+  for (const trigger of document.querySelectorAll(".artifact:not([data-player])")) {
     const popup = document.getElementById(trigger.getAttribute("popovertarget"));
     const frame = popup.querySelector(".inspection-frame");
     const image = frame.querySelector("img");

@@ -149,12 +149,6 @@ header { text-wrap: pretty; }
   border-radius: 1.2% / 2.187%;
 }
 .artifact.is-source img { visibility: hidden; }
-.project figcaption {
-  margin-top: 0.4rem;
-  color: var(--muted);
-  font-size: 0.7rem;
-  line-height: 1.1rem;
-}
 .detail-preview {
   --gallery-max: 64rem;
   --image-ratio: 1.666667;
@@ -217,12 +211,11 @@ header { text-wrap: pretty; }
 .preview-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   min-height: 44px;
   font-size: 0.75rem;
   transition: opacity 180ms ease;
 }
-.preview-footer p { margin-right: auto; color: var(--muted); }
 .preview-footer button, .preview-close {
   display: inline-flex;
   align-items: center;
@@ -235,7 +228,7 @@ header { text-wrap: pretty; }
   font: inherit;
   cursor: pointer;
 }
-.preview-footer button { padding-left: 1rem; }
+.preview-footer button { width: 44px; }
 .preview-close {
   position: absolute;
   top: -44px;

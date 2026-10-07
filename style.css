@@ -122,6 +122,7 @@ header { text-wrap: pretty; }
   line-height: 1.2rem;
 }
 .artifact {
+  --image-ratio: 5 / 3;
   position: relative;
   display: block;
   width: 100%;
@@ -132,32 +133,20 @@ header { text-wrap: pretty; }
   overflow: hidden;
   text-decoration: none;
   cursor: zoom-in;
-  aspect-ratio: 8 / 5;
+  aspect-ratio: var(--image-ratio);
 }
 .artifact img {
   position: absolute;
   display: block;
   height: auto;
   max-width: none;
-  transform: var(--picture-position, translateY(0)) scale(1);
-  transition: transform 420ms cubic-bezier(.2, .8, .2, 1);
-}
-.artifact img.workshop {
-  width: 128.024%;
-  left: -25%;
-  top: -65.806%;
-  transform-origin: 58.6% 69.2%;
-}
-.artifact img.player {
-  width: auto;
-  height: 100%;
-  left: 50%;
+  width: 100%;
+  left: 0;
   top: 0;
-  --picture-position: translateX(-50%);
-  transform-origin: 50% 50%;
 }
-@media (hover: hover) {
-  .artifact:hover img { transform: var(--picture-position, translateY(0)) scale(1.015); }
+.player-artifact {
+  --image-ratio: 450 / 247;
+  border-radius: 1.2% / 2.187%;
 }
 .artifact.is-source img { visibility: hidden; }
 .project figcaption {
@@ -168,7 +157,7 @@ header { text-wrap: pretty; }
 }
 .detail-preview {
   --gallery-max: 64rem;
-  --image-ratio: 1.6;
+  --image-ratio: 1.666667;
   width: min(var(--gallery-max), calc(100% - 3rem), calc((100svh - 9rem) * var(--image-ratio)));
   max-height: none;
   margin: auto;
@@ -219,7 +208,9 @@ header { text-wrap: pretty; }
 }
 .image-flight img { position: absolute; display: block; max-width: none; }
 .is-transitioning .inspection-frame { visibility: hidden; }
-.terrain-preview { --gallery-max: 976px; }
+.terrain-preview { --gallery-max: 980px; }
+.player-preview { --image-ratio: 1.821862; }
+.player-preview .inspection-frame { border-radius: 1.2% / 2.187%; }
 .is-transitioning .preview-footer, .is-closing .preview-close { opacity: 0; }
 [hidden] { display: none !important; }
 .preview-footer {
@@ -316,7 +307,7 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   }
   .year { margin-bottom: 0; }
   .project {
-    grid-template-columns: minmax(0, 1fr) 15rem;
+    grid-template-columns: minmax(0, 1fr) 16rem;
     gap: 2rem;
     align-items: start;
   }

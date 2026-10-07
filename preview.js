@@ -32,6 +32,7 @@
     }
     const holder = document.createElement("div");
     holder.className = "image-flight";
+    holder.style.borderRadius = getComputedStyle(controller.frame).borderRadius;
     holder.setAttribute("aria-hidden", "true");
     const picture = controller.image.cloneNode();
     picture.removeAttribute("style");

@@ -15,7 +15,9 @@
 /assets/*
 !/assets/boulder-relief.avif
 !/assets/boulder-workshop.jpg
+!/assets/boulder-workshop.png
 !/assets/ultralight.png
+!/assets/ultralight-native.png
 !/assets/source-serif-regular.woff2
 !/assets/source-serif-semibold.woff2
 !/assets/source-serif-LICENSE.md

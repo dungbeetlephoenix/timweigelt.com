@@ -75,6 +75,8 @@
       display: flex;
       flex-wrap: wrap;
       column-gap: 1.25em;
+      /* Wrapped rows keep their enlarged targets separate. */
+      row-gap: max(0.8em, 44px - var(--lh));
       margin-top: var(--u);
     }
     .index, .prose { margin-top: calc(var(--u) * 3); }
@@ -107,22 +109,35 @@
       text-decoration-thickness: max(1px, 0.06em);
       text-underline-offset: 0.22em;
       text-decoration-skip-ink: auto;
-      -webkit-tap-highlight-color: transparent;
+      -webkit-tap-highlight-color: var(--select);
       transition: text-decoration-color 140ms ease-out;
     }
     @media (hover: hover) {
       a:hover { text-decoration-color: currentColor; }
     }
-    a:active { text-decoration-color: currentColor; }
+    a:active {
+      background-color: var(--select);
+      border-radius: 2px;
+      text-decoration-color: currentColor;
+      transition: none;
+    }
     a:focus-visible {
       outline: 2px solid var(--link);
       outline-offset: 0.2em;
       border-radius: 2px;
       text-decoration-color: currentColor;
+      transition: none;
     }
     /* Short standalone links get a finger-sized target without moving a pixel of type. */
     .elsewhere a, .work a { position: relative; }
-    .elsewhere a::after, .work a::after { content: ""; position: absolute; inset: -0.4em -0.3em; }
+    .elsewhere a::after, .work a::after {
+      content: "";
+      position: absolute;
+      inset: auto -0.3em;
+      top: 50%;
+      height: max(44px, calc(100% + 0.8em));
+      transform: translateY(-50%);
+    }
     /* One hill at true scale: 1 px = 5 m on both axes. Its foot sits on the caption's baseline. */
     .hill { margin-top: calc(var(--u) * 4); }
     .hill svg { overflow: visible; margin-right: 0.75em; vertical-align: baseline; }
@@ -160,10 +175,11 @@
   <main>
     <header>
       <h1>Tim Weigelt</h1>
+      <p class="bio">I make things and ride bikes.</p>
       <nav class="elsewhere" aria-label="Main navigation">
-        <a href="/">Home</a>
         <a href="mailto:me@timweigelt.com">Email</a>
         <a href="https://github.com/dungbeetlephoenix">GitHub</a>
+        <a href="/">Home</a>
       </nav>
     </header>
     <div class="prose">

@@ -88,7 +88,7 @@ header { text-wrap: pretty; }
 .work > li {
   display: block;
 }
-.work > li + li { margin-top: 2.75rem; }
+.work > li + li { margin-top: 2.25rem; }
 .year {
   display: block;
   margin-bottom: 0.4rem;
@@ -132,31 +132,34 @@ header { text-wrap: pretty; }
   overflow: hidden;
   text-decoration: none;
   cursor: zoom-in;
-  aspect-ratio: 36 / 25;
+  aspect-ratio: 8 / 5;
 }
 .artifact img {
   position: absolute;
   display: block;
   height: auto;
   max-width: none;
-  transition: transform 320ms cubic-bezier(.22, .9, .24, 1);
+  transform: var(--picture-position, translateY(0)) scale(1);
+  transition: transform 420ms cubic-bezier(.2, .8, .2, 1);
 }
-.artifact img.relief {
-  width: 194.444%;
-  left: -45.455%;
-  top: -43.636%;
-  transform-origin: 49.1% 47.5%;
+.artifact img.workshop {
+  width: 128.024%;
+  left: -25%;
+  top: -65.806%;
+  transform-origin: 58.6% 69.2%;
 }
 .artifact img.player {
-  width: 403.571%;
-  left: -300%;
-  top: -24%;
-  transform-origin: 86.7% 24.6%;
+  width: auto;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  --picture-position: translateX(-50%);
+  transform-origin: 50% 50%;
 }
-.player-artifact { aspect-ratio: 28 / 25; }
 @media (hover: hover) {
-  .artifact:hover img { transform: scale(1.025); }
+  .artifact:hover img { transform: var(--picture-position, translateY(0)) scale(1.015); }
 }
+.artifact.is-source img { visibility: hidden; }
 .project figcaption {
   margin-top: 0.4rem;
   color: var(--muted);
@@ -164,32 +167,42 @@ header { text-wrap: pretty; }
   line-height: 1.1rem;
 }
 .detail-preview {
-  --image-ratio: 1.419355;
-  width: min(64rem, calc(100% - 2rem), calc((100svh - 9rem) * var(--image-ratio)));
-  max-height: calc(100svh - 2rem);
+  --gallery-max: 64rem;
+  --image-ratio: 1.6;
+  width: min(var(--gallery-max), calc(100% - 3rem), calc((100svh - 9rem) * var(--image-ratio)));
+  max-height: none;
   margin: auto;
-  padding: 1rem;
-  border: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
-  border-radius: 4px;
-  background: var(--paper);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--ink);
-  overflow: auto;
-  box-shadow: 0 12px 48px rgb(0 0 0 / 12%);
+  overflow: visible;
 }
-.player-preview { --image-ratio: 1.501661; }
-.detail-preview::backdrop { background: rgb(20 20 20 / 25%); }
+.detail-preview::backdrop {
+  background: color-mix(in srgb, var(--paper) 98%, transparent);
+  backdrop-filter: blur(6px);
+  opacity: 1;
+  transition: opacity 320ms ease;
+}
+@starting-style { .detail-preview:popover-open::backdrop { opacity: 0; } }
+.detail-preview.is-closing::backdrop { opacity: 0; }
 .inspection-frame {
   position: relative;
   aspect-ratio: var(--image-ratio);
   overflow: hidden;
-  border-radius: 2px;
-  background: #f8f7f3;
+  border-radius: 3px;
+  background: transparent;
 }
 .inspection-frame img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+  transform: translate(-50%, -50%);
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -197,50 +210,51 @@ header { text-wrap: pretty; }
 .inspection-frame.is-zoomed { cursor: grab; }
 .inspection-frame.is-dragging { cursor: grabbing; }
 .has-preview { overflow: hidden; }
-.terrain-artifact { view-transition-name: terrain-image; }
-.player-artifact { view-transition-name: player-image; }
-.terrain-preview .inspection-frame { view-transition-name: terrain-image; }
-.player-preview .inspection-frame { view-transition-name: player-image; }
-body:has(#boulder-preview:popover-open) .terrain-artifact,
-body:has(#ultralight-preview:popover-open) .player-artifact { view-transition-name: none; }
-::view-transition-group(terrain-image),
-::view-transition-group(player-image) {
-  animation-duration: 260ms;
-  animation-timing-function: cubic-bezier(.22, .9, .24, 1);
+.image-flight {
+  position: fixed;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 3px;
+  pointer-events: none;
 }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-.zoom-controls { display: inline-flex; gap: 0.25rem; }
+.image-flight img { position: absolute; display: block; max-width: none; }
+.is-transitioning .inspection-frame { visibility: hidden; }
+.terrain-preview { --gallery-max: 976px; }
+.is-transitioning .preview-footer, .is-closing .preview-close { opacity: 0; }
 [hidden] { display: none !important; }
-.inspection-hint {
-  margin-top: 0.15rem;
-  color: var(--muted);
-  font-size: 0.7rem;
-  line-height: 1.2rem;
-}
 .preview-footer {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1.5rem;
-  margin-top: 0.5rem;
-  font-size: 0.8rem;
+  justify-content: space-between;
+  min-height: 44px;
+  font-size: 0.75rem;
+  transition: opacity 180ms ease;
 }
 .preview-footer p { margin-right: auto; color: var(--muted); }
-.preview-footer a, .preview-footer button {
+.preview-footer button, .preview-close {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-}
-.preview-footer button {
-  padding: 0 0.5rem;
+  justify-content: center;
+  padding: 0;
   border: 0;
   background: none;
-  color: var(--link);
+  color: var(--muted);
   font: inherit;
-  text-decoration: underline;
-  text-underline-offset: 0.22em;
   cursor: pointer;
 }
+.preview-footer button { padding-left: 1rem; }
+.preview-close {
+  position: absolute;
+  top: -44px;
+  right: -12px;
+  width: 44px;
+  font-family: system-ui, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: opacity 180ms ease;
+}
+.preview-close:hover, .preview-footer button:hover { color: var(--ink); }
 .prose { max-width: 32rem; }
 .prose p { text-wrap: pretty; }
 .prose p + p { margin-top: var(--u); }
@@ -302,12 +316,11 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   }
   .year { margin-bottom: 0; }
   .project {
-    grid-template-columns: minmax(0, 1fr) 12rem;
+    grid-template-columns: minmax(0, 1fr) 15rem;
     gap: 2rem;
     align-items: start;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  a, .artifact img { transition: none; }
-  ::view-transition-group(*) { animation-duration: 0s; }
+  a, .artifact img, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }
 }

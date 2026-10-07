@@ -42,10 +42,10 @@
               <p class="status">Coming soon</p>
             </div>
             <figure>
-              <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge Boulder Roller terrain preview">
-                <img class="relief" src="/assets/boulder-relief.avif" width="3080" height="2170" alt="Measured relief of Wises Mill Road, with the recorded climb traced in blue.">
+              <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge Boulder Roller interface study">
+                <img class="workshop" src="/assets/boulder-workshop.jpg" width="1270" height="1038" alt="A Boulder Roller interface study showing the route, climb results, and elevation profile together.">
               </button>
-              <figcaption>Wises Mill Road, Philadelphia</figcaption>
+              <figcaption>Interface study</figcaption>
             </figure>
           </div>
         </li>
@@ -55,48 +55,40 @@
           <div class="project">
             <div>
               <h2><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a></h2>
-              <p class="description">A Mac music player with automatic EQ for each song. The executable is under 300 KB.</p>
+              <p class="description">A native Mac music player with FLAC, automatic per-song EQ, and a live spectrum.</p>
             </div>
             <figure>
               <button class="artifact player-artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge Ultralight interface preview">
-                <img class="player" src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s per-song equalizer, with automatic EQ and audio analysis." loading="lazy">
+                <img class="player" src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s native Mac interface, with a music library, per-song equalizer, audio analysis, and playback controls." loading="lazy">
               </button>
-              <figcaption>AppKit, no third-party dependencies</figcaption>
+              <figcaption>Executable under 300 KB</figcaption>
             </figure>
           </div>
         </li>
       </ul>
     </section>
   </main>
-  <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller terrain preview">
+  <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller interface study">
     <div class="inspection-frame">
-      <img src="/assets/boulder-relief.avif" width="3080" height="2170" alt="The full measured relief of Wises Mill Road in Philadelphia, with the recorded climb traced in blue.">
+      <img src="/assets/boulder-workshop.jpg" width="1270" height="1038" alt="Boulder Roller’s Ride V13 interface study, with an example rider, a retained historical ride, its route, climb results, and elevation profile.">
     </div>
     <div class="preview-footer">
-      <p>Wises Mill Road, Philadelphia</p>
-      <a href="https://boulderroller.xyz/">Visit Boulder Roller</a>
-      <div class="zoom-controls" hidden>
-        <button type="button" data-zoom aria-label="Zoom in">+</button>
-        <button type="button" data-fit>Fit</button>
-      </div>
-      <button type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" autofocus>Close</button>
+      <p>Boulder Roller · Interface study</p>
+      <button type="button" data-fit hidden>Full view</button>
     </div>
-    <p class="inspection-hint" id="terrain-inspection-hint" hidden>Click, scroll or pinch to zoom. Drag to inspect.</p>
+    <button class="preview-close" type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
+    <p class="visually-hidden" id="terrain-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
   <div class="detail-preview player-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight interface preview">
     <div class="inspection-frame">
       <img src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s full native Mac interface: local music library, per-song equalizer, audio analysis, and playback controls.">
     </div>
     <div class="preview-footer">
-      <p>Ultralight for Mac</p>
-      <a href="https://github.com/dungbeetlephoenix/ultralight-appkit">View on GitHub</a>
-      <div class="zoom-controls" hidden>
-        <button type="button" data-zoom aria-label="Zoom in">+</button>
-        <button type="button" data-fit>Fit</button>
-      </div>
-      <button type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" autofocus>Close</button>
+      <p>Ultralight</p>
+      <button type="button" data-fit hidden>Full view</button>
     </div>
-    <p class="inspection-hint" id="player-inspection-hint" hidden>Click, scroll or pinch to zoom. Drag to inspect.</p>
+    <button class="preview-close" type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
+    <p class="visually-hidden" id="player-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
 </body>
 </html>

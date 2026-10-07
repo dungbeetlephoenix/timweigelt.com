@@ -4,41 +4,79 @@
   const main = document.querySelector("main");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   let active = null;
-  let transition = null;
-  let operation = Promise.resolve();
+  let request = 0;
 
-  // Serialize state changes while allowing an interrupted animation to finish early.
-  const changeView = (update) => {
-    transition?.skipTransition();
-    operation = operation.then(async () => {
-      if (!document.startViewTransition || reducedMotion.matches) {
-        update();
-        return;
-      }
-      const current = document.startViewTransition(update);
-      transition = current;
-      await current.finished.catch(() => {});
-      if (transition === current) transition = null;
-    });
-    return operation;
+  const pictureBounds = (frame, image) => ({ frame: frame.getBoundingClientRect(), image: image.getBoundingClientRect() });
+  const box = (rect, parent = { left: 0, top: 0 }) => ({ left: `${rect.left - parent.left}px`, top: `${rect.top - parent.top}px`, width: `${rect.width}px`, height: `${rect.height}px` });
+  const finishFlight = (controller) => {
+    controller.motionId++;
+    controller.flight?.animations.forEach((animation) => animation.cancel());
+    controller.flight?.holder.remove();
+    controller.flight = null;
+    controller.popup.classList.remove("is-transitioning");
+    const settle = controller.settle;
+    controller.settle = null;
+    settle?.();
+  };
+  // One image plane moves between the two windows; no old/new-image crossfade.
+  const fly = (controller, from, to, settle) => {
+    controller.motionId++;
+    const motionId = controller.motionId;
+    controller.flight?.animations.forEach((animation) => animation.cancel());
+    controller.flight?.holder.remove();
+    controller.flight = null;
+    controller.settle = settle;
+    if (reducedMotion.matches || !Element.prototype.animate) {
+      finishFlight(controller);
+      return;
+    }
+    const holder = document.createElement("div");
+    holder.className = "image-flight";
+    holder.setAttribute("aria-hidden", "true");
+    const picture = controller.image.cloneNode();
+    picture.removeAttribute("style");
+    picture.alt = "";
+    holder.append(picture);
+    controller.popup.append(holder);
+    Object.assign(holder.style, box(from.frame));
+    Object.assign(picture.style, box(from.image, from.frame));
+    controller.popup.classList.add("is-transitioning");
+    const timing = { duration: controller.phase === "closing" ? 320 : 440, easing: "cubic-bezier(.2, .8, .2, 1)", fill: "both" };
+    const animations = [holder.animate([box(from.frame), box(to.frame)], timing), picture.animate([box(from.image, from.frame), box(to.image, to.frame)], timing)];
+    controller.flight = { holder, picture, animations };
+    Promise.all(animations.map((animation) => animation.finished)).then(() => {
+      if (controller.motionId === motionId) finishFlight(controller);
+    }).catch(() => {});
   };
 
-  const close = () => changeView(() => {
+  const close = () => {
+    request++;
     if (!active) return;
     const previous = active;
-    active = null;
-    previous.popup.hidePopover();
-    previous.reset();
-    main.inert = false;
-    document.body.classList.remove("has-preview");
-    previous.trigger.focus({ preventScroll: true });
-  });
+    if (previous.phase === "closing") { finishFlight(previous); return; }
+    const from = previous.flight ? pictureBounds(previous.flight.holder, previous.flight.picture) : pictureBounds(previous.frame, previous.image);
+    previous.freeze();
+    previous.phase = "closing";
+    previous.popup.classList.add("is-closing");
+    const to = pictureBounds(previous.trigger, previous.trigger.querySelector("img"));
+    fly(previous, from, to, () => {
+      active = null;
+      previous.popup.hidePopover();
+      previous.popup.classList.remove("is-closing");
+      previous.trigger.classList.remove("is-source");
+      previous.phase = "closed";
+      previous.reset();
+      main.inert = false;
+      document.body.classList.remove("has-preview");
+      previous.trigger.focus({ preventScroll: true });
+    });
+  };
 
   for (const trigger of document.querySelectorAll(".artifact")) {
     const popup = document.getElementById(trigger.getAttribute("popovertarget"));
     const frame = popup.querySelector(".inspection-frame");
     const image = frame.querySelector("img");
-    const zoomButton = popup.querySelector("[data-zoom]");
+    const fitButton = popup.querySelector("[data-fit]");
     const pointers = new Map();
     let camera = { scale: 1, x: 0, y: 0 };
     let target = { ...camera };
@@ -46,34 +84,45 @@
     let lastTime = 0;
     let gesture = null;
     let moved = false;
+    let baseWidth = 0;
+    let baseHeight = 0;
+    let frameWidth = 0;
+    let frameHeight = 0;
 
     popup.popover = "manual";
     popup.setAttribute("aria-modal", "true");
-    popup.setAttribute("aria-describedby", popup.querySelector(".inspection-hint").id);
+    popup.setAttribute("aria-describedby", popup.querySelector(".visually-hidden").id);
     frame.tabIndex = 0;
     frame.setAttribute("role", "region");
     frame.setAttribute("aria-label", "Image inspection. Plus and minus to zoom, arrow keys to pan, zero to fit.");
     frame.classList.add("is-interactive");
-    popup.querySelector(".zoom-controls").hidden = false;
-    popup.querySelector(".inspection-hint").hidden = false;
     image.draggable = false;
 
-    const maxScale = () => Math.max(1, Math.min(4, image.naturalWidth / frame.clientWidth));
+    const measure = () => {
+      frameWidth = frame.clientWidth;
+      frameHeight = frame.clientHeight;
+      const aspect = image.naturalWidth / image.naturalHeight || 1;
+      baseWidth = Math.min(frameWidth, frameHeight * aspect);
+      baseHeight = baseWidth / aspect;
+    };
+    const maxScale = () => Math.max(1, Math.min(4, image.naturalWidth / (baseWidth || 1)));
     const bound = (value) => {
       value.scale = Math.max(1, Math.min(maxScale(), value.scale));
-      const xLimit = frame.clientWidth * (value.scale - 1) / 2;
-      const yLimit = frame.clientHeight * (value.scale - 1) / 2;
+      const xLimit = Math.max(0, (baseWidth * value.scale - frameWidth) / 2);
+      const yLimit = Math.max(0, (baseHeight * value.scale - frameHeight) / 2);
       value.x = Math.max(-xLimit, Math.min(xLimit, value.x));
       value.y = Math.max(-yLimit, Math.min(yLimit, value.y));
       return value;
     };
     const render = () => {
-      image.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.scale})`;
+      image.style.width = `${baseWidth}px`;
+      image.style.height = `${baseHeight}px`;
+      image.style.transform = `translate(-50%, -50%) translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.scale})`;
       frame.classList.toggle("is-zoomed", camera.scale > 1.01);
-      zoomButton.disabled = target.scale >= maxScale() - 0.01;
+      fitButton.hidden = controller.phase !== "open" || target.scale <= 1.01;
     };
     const tick = (time) => {
-      const fraction = 1 - Math.exp(-Math.min(time - lastTime, 64) / 50);
+      const fraction = 1 - Math.exp(-Math.min(time - lastTime, 64) / 35);
       lastTime = time;
       for (const key of ["scale", "x", "y"]) camera[key] += (target[key] - camera[key]) * fraction;
       const settled = Math.abs(camera.scale - target.scale) < 0.001 && Math.abs(camera.x - target.x) < 0.1 && Math.abs(camera.y - target.y) < 0.1;
@@ -108,17 +157,31 @@
       frame.classList.remove("is-dragging");
       setCamera({ scale: 1, x: 0, y: 0 }, true);
     };
-    const controller = { popup, trigger, reset };
+    const freeze = () => { pointers.clear(); gesture = null; setCamera({ ...camera }, true); };
+    const controller = { popup, trigger, frame, image, reset, freeze, phase: "closed", motionId: 0, flight: null, settle: null };
 
-    trigger.addEventListener("click", (event) => {
+    trigger.addEventListener("click", async (event) => {
       event.preventDefault();
-      changeView(() => {
-        if (active) active.popup.hidePopover();
-        active = controller;
-        reset();
-        document.body.classList.add("has-preview");
-        main.inert = true;
-        popup.showPopover();
+      const ticket = ++request;
+      if (!image.complete || !image.naturalWidth) {
+        await image.decode().catch(() => {});
+        if (ticket !== request || !image.naturalWidth) return;
+      }
+      if (active) return;
+      const from = pictureBounds(trigger, trigger.querySelector("img"));
+      active = controller;
+      controller.phase = "opening";
+      popup.classList.remove("is-closing");
+      document.body.classList.add("has-preview");
+      main.inert = true;
+      popup.showPopover();
+      measure();
+      const ratio = frameWidth / from.frame.width;
+      setCamera({ scale: from.image.width * ratio / baseWidth, x: (from.image.left + from.image.width / 2 - from.frame.left - from.frame.width / 2) * ratio, y: (from.image.top + from.image.height / 2 - from.frame.top - from.frame.height / 2) * ratio }, true);
+      trigger.classList.add("is-source");
+      fly(controller, from, pictureBounds(frame, image), () => {
+        controller.phase = "open";
+        render();
       });
     });
     popup.querySelector("[data-close]").addEventListener("click", (event) => {
@@ -128,13 +191,13 @@
     popup.addEventListener("keydown", (event) => {
       if (event.ctrlKey || event.metaKey || event.altKey) return;
       if (event.key === "Tab") {
-        const stops = [...popup.querySelectorAll("a, button, [tabindex='0']")].filter((element) => !element.disabled && !element.hidden);
+        const stops = [...popup.querySelectorAll("a, button, [tabindex='0']")].filter((element) => !element.disabled && !element.hidden && getComputedStyle(element).visibility !== "hidden");
         const first = stops[0];
         const last = stops[stops.length - 1];
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
-      if (document.activeElement !== frame) return;
+      if (document.activeElement !== frame || controller.phase !== "open") return;
       if (event.key === "+" || event.key === "=") zoom(target.scale * 1.4);
       else if (event.key === "-") zoom(target.scale / 1.4);
       else if (event.key === "0") setCamera({ scale: 1, x: 0, y: 0 });
@@ -144,12 +207,18 @@
       } else return;
       event.preventDefault();
     });
-    zoomButton.addEventListener("click", () => zoom(target.scale * 1.5));
-    popup.querySelector("[data-fit]").addEventListener("click", () => setCamera({ scale: 1, x: 0, y: 0 }));
+    fitButton.addEventListener("click", () => {
+      if (controller.phase !== "open") return;
+      frame.focus({ preventScroll: true });
+      setCamera({ scale: 1, x: 0, y: 0 });
+    });
     frame.addEventListener("wheel", (event) => {
       event.preventDefault();
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? frame.clientHeight : 1);
-      zoom(target.scale * Math.exp(-Math.max(-200, Math.min(200, delta)) * 0.003), point(event.clientX, event.clientY));
+      if (controller.phase !== "open") return;
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? frame.clientHeight : 1;
+      const delta = event.deltaY * unit;
+      if (event.ctrlKey) zoom(target.scale * Math.exp(-Math.max(-200, Math.min(200, delta)) * 0.008), point(event.clientX, event.clientY));
+      else setCamera({ ...camera, x: camera.x - event.deltaX * unit, y: camera.y - delta }, true);
     }, { passive: false });
 
     const startGesture = () => {
@@ -161,7 +230,7 @@
       else gesture = null;
     };
     frame.addEventListener("pointerdown", (event) => {
-      if (event.button !== 0) return;
+      if (event.button !== 0 || controller.phase !== "open") return;
       frame.focus({ preventScroll: true });
       setCamera({ ...camera }, true);
       if (!pointers.size) moved = false;
@@ -201,9 +270,16 @@
     frame.addEventListener("pointerup", release);
     frame.addEventListener("pointercancel", release);
     frame.addEventListener("lostpointercapture", release);
-    image.addEventListener("load", () => { if (popup.matches(":popover-open")) setCamera({ ...target }, true); });
-    reducedMotion.addEventListener("change", () => { if (reducedMotion.matches) setCamera({ ...target }, true); });
-    new ResizeObserver(() => { if (popup.matches(":popover-open")) setCamera({ ...target }, true); }).observe(frame);
+    image.addEventListener("load", () => { if (popup.matches(":popover-open")) { measure(); setCamera({ ...target }, true); } });
+    reducedMotion.addEventListener("change", () => {
+      if (reducedMotion.matches) { setCamera({ ...target }, true); if (controller.flight) finishFlight(controller); }
+    });
+    new ResizeObserver(() => {
+      if (!popup.matches(":popover-open") || (frame.clientWidth === frameWidth && frame.clientHeight === frameHeight)) return;
+      measure();
+      setCamera({ ...target }, true);
+      if (controller.flight) finishFlight(controller);
+    }).observe(frame);
   }
   document.addEventListener("click", (event) => {
     if (!active || active.trigger.contains(event.target)) return;
@@ -212,6 +288,6 @@
     if (!active.popup.contains(event.target) || (event.target === active.popup && outsideBounds)) close();
   });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && (active || transition)) { event.preventDefault(); close(); }
+    if (event.key === "Escape") { if (active) event.preventDefault(); close(); }
   });
 })();

@@ -100,13 +100,14 @@
     image.draggable = false;
 
     const measure = () => {
-      frameWidth = frame.clientWidth;
-      frameHeight = frame.clientHeight;
-      const aspect = image.naturalWidth / image.naturalHeight || 1;
-      baseWidth = Math.min(frameWidth, frameHeight * aspect);
-      baseHeight = baseWidth / aspect;
+      const rect = frame.getBoundingClientRect();
+      frameWidth = baseWidth = rect.width;
+      frameHeight = baseHeight = rect.height;
     };
-    const maxScale = () => Math.max(1, Math.min(4, image.naturalWidth / (baseWidth || 1)));
+    const maxScale = () => {
+      const density = Math.max(1, devicePixelRatio);
+      return Math.max(1, Math.min(4, image.naturalWidth / ((baseWidth || 1) * density), image.naturalHeight / ((baseHeight || 1) * density)));
+    };
     const bound = (value) => {
       value.scale = Math.max(1, Math.min(maxScale(), value.scale));
       const xLimit = Math.max(0, (baseWidth * value.scale - frameWidth) / 2);
@@ -119,6 +120,7 @@
       image.style.width = `${baseWidth}px`;
       image.style.height = `${baseHeight}px`;
       image.style.transform = `translate(-50%, -50%) translate3d(${camera.x}px, ${camera.y}px, 0) scale(${camera.scale})`;
+      frame.classList.toggle("is-zoomable", maxScale() > 1.01);
       frame.classList.toggle("is-zoomed", camera.scale > 1.01);
       fitButton.hidden = controller.phase !== "open" || target.scale <= 1.01;
     };
@@ -177,8 +179,7 @@
       main.inert = true;
       popup.showPopover();
       measure();
-      const ratio = frameWidth / from.frame.width;
-      setCamera({ scale: from.image.width * ratio / baseWidth, x: (from.image.left + from.image.width / 2 - from.frame.left - from.frame.width / 2) * ratio, y: (from.image.top + from.image.height / 2 - from.frame.top - from.frame.height / 2) * ratio }, true);
+      reset();
       trigger.classList.add("is-source");
       fly(controller, from, pictureBounds(frame, image), () => {
         controller.phase = "open";
@@ -276,7 +277,8 @@
       if (reducedMotion.matches) { setCamera({ ...target }, true); if (controller.flight) finishFlight(controller); }
     });
     new ResizeObserver(() => {
-      if (!popup.matches(":popover-open") || (frame.clientWidth === frameWidth && frame.clientHeight === frameHeight)) return;
+      const rect = frame.getBoundingClientRect();
+      if (!popup.matches(":popover-open") || (rect.width === frameWidth && rect.height === frameHeight)) return;
       measure();
       setCamera({ ...target }, true);
       if (controller.flight) finishFlight(controller);

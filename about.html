@@ -8,160 +8,8 @@
   <meta name="theme-color" content="#161514" media="(prefers-color-scheme: dark)">
   <meta name="description" content="About Tim Weigelt: Boulder Roller, riding and racing, coaching, computers, financial markets, and Ultralight.">
   <title>About — Tim Weigelt</title>
-  <style>
-    :root {
-      color-scheme: light dark;
-      /* A hair warm of white; every neutral sits on the same warm axis. */
-      --paper: #fcfbf9;
-      --ink: #22211e;
-      --muted: #6b6963;
-      --link: #2f5a82;
-      --rule: #aebecc;
-      --select: #d6e0ea;
-      --hill: #e9e7e3;
-      --serif: Charter, "Bitstream Charter", "Charis SIL", "Sitka Text", Cambria, Georgia, serif;
-      /* One rhythm: every line box is --lh, every gap is a multiple of --u. */
-      --lh: 1.5rem;
-      --u: calc(var(--lh) / 2);
-      --small: 0.875rem;
-      --measure: 32rem;
-      --hang: 3.375rem;
-      --gutter: clamp(1rem, 6vw, 1.5rem);
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --paper: #161514;
-        --ink: #e2dfd8;
-        --muted: #9c988e;
-        --link: #9fb9d5;
-        --rule: #535f6b;
-        --select: #33414f;
-        --hill: #292826;
-      }
-      /* Light type on a dark ground blooms; thin the rendering and open the tracking a hair. */
-      body {
-        letter-spacing: 0.006em;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-    }
-    *, *::before, *::after { box-sizing: border-box; }
-    html {
-      font-size: 106.25%;
-      background: var(--paper);
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--serif);
-      font-size: 1rem;
-      line-height: var(--lh);
-      font-kerning: normal;
-    }
-    ::selection { background: var(--select); color: var(--ink); }
-    main {
-      box-sizing: content-box;
-      max-width: var(--measure);
-      padding: calc(var(--lh) * 3) var(--gutter);
-      padding-left: max(var(--gutter), (100% - var(--measure)) * 0.382);
-    }
-    h1 { margin: 0; font: inherit; font-weight: 700; }
-    p, figure { margin: 0; }
-    header { text-wrap: pretty; }
-    .elsewhere {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 1.25em;
-      /* Wrapped rows keep their enlarged targets separate. */
-      row-gap: max(0.8em, 44px - var(--lh));
-      margin-top: var(--u);
-    }
-    .index, .prose { margin-top: calc(var(--u) * 3); }
-    .work { list-style: none; margin: 0; padding: 0; }
-    .work > li {
-      display: grid;
-      grid-template-columns: var(--hang) minmax(0, 1fr);
-      align-items: baseline;
-    }
-    .work > li + li { margin-top: calc(var(--u) * 2); }
-    .year, .description, .hill { color: var(--muted); font-size: var(--small); }
-    .year, .hill { font-variant-numeric: lining-nums tabular-nums; }
-    .prose p { text-wrap: pretty; }
-    .prose p + p { margin-top: var(--u); }
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
-    a {
-      color: var(--link);
-      text-decoration-line: underline;
-      text-decoration-color: var(--rule);
-      text-decoration-thickness: max(1px, 0.06em);
-      text-underline-offset: 0.22em;
-      text-decoration-skip-ink: auto;
-      -webkit-tap-highlight-color: var(--select);
-      transition: text-decoration-color 140ms ease-out;
-    }
-    @media (hover: hover) {
-      a:hover { text-decoration-color: currentColor; }
-    }
-    a:active {
-      background-color: var(--select);
-      border-radius: 2px;
-      text-decoration-color: currentColor;
-      transition: none;
-    }
-    a:focus-visible {
-      outline: 2px solid var(--link);
-      outline-offset: 0.2em;
-      border-radius: 2px;
-      text-decoration-color: currentColor;
-      transition: none;
-    }
-    /* Short standalone links get a finger-sized target without moving a pixel of type. */
-    .elsewhere a, .work a { position: relative; }
-    .elsewhere a::after, .work a::after {
-      content: "";
-      position: absolute;
-      inset: auto -0.3em;
-      top: 50%;
-      height: max(44px, calc(100% + 0.8em));
-      transform: translateY(-50%);
-    }
-    /* One hill at true scale: 1 px = 5 m on both axes. Its foot sits on the caption's baseline. */
-    .hill { margin-top: calc(var(--u) * 4); }
-    .hill svg { overflow: visible; margin-right: 0.75em; vertical-align: baseline; }
-    .hill .ground { fill: var(--hill); }
-    .hill .line {
-      fill: none;
-      stroke: var(--muted);
-      stroke-width: 1;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      vector-effect: non-scaling-stroke;
-    }
-    .hill figcaption { display: inline; white-space: nowrap; }
-    @media (min-width: 52em) {
-      :root { --hang: 3.75rem; }
-      html { font-size: 112.5%; }
-      main { padding-top: calc(var(--lh) * 4); }
-      /* Years hang in the margin: name, bio, links and project names share one left edge. */
-      .work > li { margin-left: calc(var(--hang) * -1); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      a { transition: none; }
-    }
-  </style>
+  <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/style.css">
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
@@ -183,9 +31,9 @@
       </nav>
     </header>
     <div class="prose">
-      <p>I’m working on <a href="https://boulderroller.xyz/">Boulder Roller</a>. It brings together a few things I’ve spent a lot of time with: riding and racing, coaching, computers, and financial markets.</p>
+      <p>I’m building <a href="https://boulderroller.xyz/">Boulder Roller</a> around permanent climbs, recorded rides, and leaderboards that pay riders in DUNG. It brings together riding and racing, coaching, computers, and financial markets.</p>
       <p>I raced with CS Velo and have coached cyclists. These days I ride a few times a week, mostly solo.</p>
-      <p><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a> came out of wanting a smaller music player for my Mac.</p>
+      <p><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a> came out of wanting a smaller music player for my Mac. It plays local files, remembers EQ per song, and analyzes the audio automatically.</p>
     </div>
   </main>
 </body>

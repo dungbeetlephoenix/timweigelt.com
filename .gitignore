@@ -10,3 +10,10 @@
 !/favicon-earth.ico
 !/favicon.ico
 !/apple-touch-icon-earth.png
+!/assets/
+/assets/*
+!/assets/boulder-relief.avif
+!/assets/ultralight.png
+!/assets/source-serif-regular.woff2
+!/assets/source-serif-semibold.woff2
+!/assets/source-serif-LICENSE.md

@@ -8,7 +8,9 @@ root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
 allowed = {"index.html", "about.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
-unexpected = {p.name for p in public.iterdir()} - allowed
+assets = {"assets/boulder-relief.avif", "assets/ultralight.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
+allowed |= assets
+unexpected = {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} - allowed
 if unexpected:
     raise SystemExit(f"Unexpected publication files: {sorted(unexpected)}")
 
@@ -24,6 +26,10 @@ style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
 for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
+for asset in assets:
+    target = public / asset
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes((root / asset).read_bytes())
 (public / "404.html").write_text('''<!doctype html>
 <html lang="en">
 <head>
@@ -48,7 +54,7 @@ for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-ea
 # Preserve approved HTML, including mailto links, through Cloudflare's edge.
 (public / "_headers").write_text(f'''/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
-  Content-Security-Policy: default-src 'none'; style-src {style_sources}; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; style-src {style_sources}; font-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer
@@ -74,7 +80,7 @@ Sitemap: https://timweigelt.com/sitemap.xml
   <url><loc>https://timweigelt.com/about</loc></url>
 </urlset>
 ''')
-assert {p.name for p in public.iterdir()} == allowed
+assert {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} == allowed
 for name in ("index.html", "about.html"):
     assert (public / name).read_bytes() == (root / name).read_bytes()
     text = (public / name).read_text()

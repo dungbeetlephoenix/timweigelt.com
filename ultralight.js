@@ -1,7 +1,7 @@
 // A controls-only model of the retained native frame. No playback, decoding,
 // filesystem access, network requests, or persistent settings.
-import { tracks } from './ultralight-tracks.js';
-import { createFlair } from './ultralight-flair.js';
+import { tracks } from './ultralight-tracks.js?v=f854315b8a3a';
+import { createFlair } from './ultralight-flair.js?v=c773644e4533';
 const dialog = document.querySelector('.ultralight-dialog');
 const plane = dialog.querySelector('.native-plane');
 const object = dialog.querySelector('.native-object');

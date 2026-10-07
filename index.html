@@ -10,6 +10,7 @@
   <title>Tim Weigelt</title>
   <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
+  <script src="/preview.js" defer></script>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
@@ -41,7 +42,7 @@
               <p class="status">Coming soon</p>
             </div>
             <figure>
-              <button class="artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge Boulder Roller terrain preview">
+              <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge Boulder Roller terrain preview">
                 <img class="relief" src="/assets/boulder-relief.avif" width="3080" height="2170" alt="Measured relief of Wises Mill Road, with the recorded climb traced in blue.">
               </button>
               <figcaption>Wises Mill Road, Philadelphia</figcaption>
@@ -57,8 +58,8 @@
               <p class="description">A Mac music player with automatic EQ for each song. The executable is under 300 KB.</p>
             </div>
             <figure>
-              <button class="artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge Ultralight interface preview">
-                <img class="player" src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s native Mac interface, with a local music library and an eight-band equalizer." loading="lazy">
+              <button class="artifact player-artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge Ultralight interface preview">
+                <img class="player" src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s per-song equalizer, with automatic EQ and audio analysis." loading="lazy">
               </button>
               <figcaption>AppKit, no third-party dependencies</figcaption>
             </figure>
@@ -67,21 +68,35 @@
       </ul>
     </section>
   </main>
-  <div class="detail-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller terrain preview">
-    <img src="/assets/boulder-relief.avif" width="3080" height="2170" alt="The full measured relief of Wises Mill Road in Philadelphia, with the recorded climb traced in blue.">
+  <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller terrain preview">
+    <div class="inspection-frame">
+      <img src="/assets/boulder-relief.avif" width="3080" height="2170" alt="The full measured relief of Wises Mill Road in Philadelphia, with the recorded climb traced in blue.">
+    </div>
     <div class="preview-footer">
       <p>Wises Mill Road, Philadelphia</p>
       <a href="https://boulderroller.xyz/">Visit Boulder Roller</a>
-      <button type="button" popovertarget="boulder-preview" popovertargetaction="hide" autofocus>Close</button>
+      <div class="zoom-controls" hidden>
+        <button type="button" data-zoom aria-label="Zoom in">+</button>
+        <button type="button" data-fit>Fit</button>
+      </div>
+      <button type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" autofocus>Close</button>
     </div>
+    <p class="inspection-hint" id="terrain-inspection-hint" hidden>Click, scroll or pinch to zoom. Drag to inspect.</p>
   </div>
-  <div class="detail-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight interface preview">
-    <img src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s full native Mac interface: local music library, per-song equalizer, audio analysis, and playback controls." loading="lazy">
+  <div class="detail-preview player-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight interface preview">
+    <div class="inspection-frame">
+      <img src="/assets/ultralight.png" width="1808" height="1204" alt="Ultralight’s full native Mac interface: local music library, per-song equalizer, audio analysis, and playback controls.">
+    </div>
     <div class="preview-footer">
       <p>Ultralight for Mac</p>
       <a href="https://github.com/dungbeetlephoenix/ultralight-appkit">View on GitHub</a>
-      <button type="button" popovertarget="ultralight-preview" popovertargetaction="hide" autofocus>Close</button>
+      <div class="zoom-controls" hidden>
+        <button type="button" data-zoom aria-label="Zoom in">+</button>
+        <button type="button" data-fit>Fit</button>
+      </div>
+      <button type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" autofocus>Close</button>
     </div>
+    <p class="inspection-hint" id="player-inspection-hint" hidden>Click, scroll or pinch to zoom. Drag to inspect.</p>
   </div>
 </body>
 </html>

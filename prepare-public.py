@@ -10,6 +10,7 @@ public.mkdir(exist_ok=True)
 allowed = {"index.html", "about.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
 assets = {"assets/boulder-relief.avif", "assets/ultralight.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
+allowed.add("preview.js")
 unexpected = {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} - allowed
 if unexpected:
     raise SystemExit(f"Unexpected publication files: {sorted(unexpected)}")
@@ -24,7 +25,7 @@ for name in ("index.html", "about.html"):
         style_hashes.add(f"'sha256-{digest}'")
 style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
-for asset in ("style.css", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
+for asset in ("style.css", "preview.js", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
 for asset in assets:
     target = public / asset
@@ -54,7 +55,7 @@ for asset in assets:
 # Preserve approved HTML, including mailto links, through Cloudflare's edge.
 (public / "_headers").write_text(f'''/*
   Cache-Control: public, max-age=0, must-revalidate, no-transform
-  Content-Security-Policy: default-src 'none'; style-src {style_sources}; font-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'none'; script-src 'self'; style-src {style_sources}; font-src 'self'; img-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Referrer-Policy: no-referrer

@@ -7,9 +7,10 @@
   <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
   <meta name="description" content="Tim Weigelt builds software and rides bikes. Boulder Roller is a cycling app built around climbs. Ultralight is a music player for macOS in under 200 KB.">
+  <meta name="author" content="Tim Weigelt">
   <title>timweigelt.com</title>
   <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=376cb41a8391">
+  <link rel="stylesheet" href="/style.css?v=a7ed52373a37">
   <script src="/preview.js?v=5b3863f77a5e" defer></script>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
@@ -26,6 +27,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Tim Weigelt, set over a dawn sky that fades from slate blue to warm haze.">
   <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Tim Weigelt","url":"https://timweigelt.com/","email":"mailto:me@timweigelt.com","sameAs":["https://github.com/dungbeetlephoenix"]}</script>
 </head>
 <body>
   <main>
@@ -34,7 +36,7 @@
       <p class="dek">Previously raced with CS Velo and coached cyclists.</p>
       <dl class="index">
         <div><dt>Email</dt><dd><a href="mailto:me@timweigelt.com">me@timweigelt.com</a></dd></div>
-        <div><dt>GitHub</dt><dd><a href="https://github.com/dungbeetlephoenix">dungbeetlephoenix</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/dungbeetlephoenix" rel="me">dungbeetlephoenix</a></dd></div>
       </dl>
     </header>
     <section class="work" aria-label="Projects">
@@ -45,7 +47,7 @@
         <p class="meta">In development</p>
         <figure class="plate">
           <button class="artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge the Boulder Roller ride page">
-            <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
+            <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" fetchpriority="high" decoding="async" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
           </button>
           <figcaption>Ride page, design study</figcaption>
         </figure>
@@ -58,7 +60,7 @@
         <p class="meta">Experiment · Swift, AppKit, no dependencies</p>
         <figure class="plate">
           <button class="artifact window-artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge the Ultralight window">
-            <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-song equalizer, its sound analysis, and the waveform." loading="lazy">
+            <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-track equalizer, its sound analysis, and the waveform." loading="lazy" decoding="async">
           </button>
           <figcaption>Main window</figcaption>
         </figure>
@@ -77,7 +79,7 @@
   </div>
   <div class="detail-preview window-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight window">
     <div class="inspection-frame">
-      <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-song equalizer, its sound analysis, and the waveform.">
+      <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-track equalizer, its sound analysis, and the waveform.">
     </div>
     <div class="preview-footer">
       <button type="button" data-fit aria-label="Fit full image" title="Fit full image (0)" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button>

@@ -37,6 +37,8 @@ for asset in assets:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
   <meta name="robots" content="noindex">
   <title>Page not found — timweigelt.com</title>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">

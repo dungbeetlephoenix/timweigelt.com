@@ -17,9 +17,10 @@
   --paper: #fcfbf9;
   --ink: #1f1e1b;
   --ink-2: #4f4d48;
-  --muted: #76736c;
+  --muted: #6f6c65;
   --rule: #c9c5bd;
   --edge: rgb(31 30 27 / 0.09);
+  --edge-hover: rgb(31 30 27 / 0.2);
   --focus: #2f5a82;
   --select: #d6e0ea;
   --serif: "Source Serif", Charter, "Bitstream Charter", Georgia, serif;
@@ -42,6 +43,7 @@
     --muted: #8f8b83;
     --rule: #4a4743;
     --edge: rgb(228 225 218 / 0.1);
+    --edge-hover: rgb(228 225 218 / 0.24);
     --focus: #a3bcd6;
     --select: #33414f;
   }
@@ -143,6 +145,10 @@ figcaption { margin-top: var(--quarter); }
   border-radius: inherit;
   box-shadow: inset 0 0 0 1px var(--edge);
   pointer-events: none;
+  transition: box-shadow 140ms ease-out;
+}
+@media (hover: hover) {
+  .artifact:hover::after { box-shadow: inset 0 0 0 1px var(--edge-hover); }
 }
 .artifact img {
   position: absolute;
@@ -318,5 +324,5 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   .project > .year { grid-column: 1; grid-row: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
-  a, .artifact img, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }
+  a, .artifact img, .artifact::after, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }
 }

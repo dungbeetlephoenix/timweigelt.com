@@ -7,19 +7,17 @@ import hashlib
 root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
-allowed = {"index.html", "about.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
-assets = {"assets/boulder-workshop.png", "assets/ultralight-native.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
+allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon.svg", "favicon.ico", "favicon-earth.ico", "apple-touch-icon.png"}
+assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.jpg", "assets/flipside-panel.webp", "assets/flipside-panel-dark.webp", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
 allowed.add("preview.js")
-player_files = {"ultralight.js", "ultralight.css", "ultralight-tracks.js", "ultralight-flair.js"}
-allowed |= player_files
 unexpected = {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} - allowed
 if unexpected:
     raise SystemExit(f"Unexpected publication files: {sorted(unexpected)}")
 
 # The approved pages are already publication-ready. Preserve their exact bytes.
 style_hashes = set()
-for name in ("index.html", "about.html"):
+for name in ("index.html",):
     source = (root / name).read_bytes()
     (public / name).write_bytes(source)
     for css in re.findall(rb"<style>(.*?)</style>", source, re.DOTALL):
@@ -27,8 +25,11 @@ for name in ("index.html", "about.html"):
         style_hashes.add(f"'sha256-{digest}'")
 style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
-for asset in ("style.css", "preview.js", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png", *sorted(player_files)):
+for asset in ("style.css", "preview.js", "favicon.svg", "favicon.ico", "apple-touch-icon.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
+# A Cloudflare redirect rule on timweigelt.com sends /favicon.ico to /favicon-earth.ico.
+# Serve the current icon at that path until the rule is removed.
+(public / "favicon-earth.ico").write_bytes((root / "favicon.ico").read_bytes())
 for asset in assets:
     target = public / asset
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -39,17 +40,21 @@ for asset in assets:
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
   <meta name="robots" content="noindex">
-  <title>Page not found — Tim Weigelt</title>
-  <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
-  <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
-  <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
+  <title>Page not found — timweigelt.com</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <main>
-    <h1>Page not found.</h1>
-    <p>That page isn’t here. <a href="/">Return home</a>.</p>
+    <header class="intro">
+      <h1><strong>Page not found.</strong></h1>
+      <p class="dek">Nothing is published at this address. Go to the <a href="/">home page</a>.</p>
+    </header>
   </main>
 </body>
 </html>
@@ -71,6 +76,8 @@ for asset in assets:
   Content-Type: image/x-icon
 ''')
 (public / "_redirects").write_text('''# Hostname canonicalization is configured in Cloudflare Redirect Rules.
+# The about page folded into the home page.
+/about / 301
 ''')
 (public / "robots.txt").write_text('''User-agent: *
 Allow: /
@@ -80,11 +87,10 @@ Sitemap: https://timweigelt.com/sitemap.xml
 (public / "sitemap.xml").write_text('''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://timweigelt.com/</loc></url>
-  <url><loc>https://timweigelt.com/about</loc></url>
 </urlset>
 ''')
 assert {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} == allowed
-for name in ("index.html", "about.html"):
+for name in ("index.html",):
     assert (public / name).read_bytes() == (root / name).read_bytes()
     text = (public / name).read_text()
     assert 'noindex' not in text

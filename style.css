@@ -15,31 +15,38 @@
 :root {
   color-scheme: light dark;
   --paper: #fcfbf9;
-  --ink: #22211e;
+  --ink: #1f1e1b;
   --muted: #6b6963;
   --link: #2f5a82;
   --rule: #aebecc;
+  --edge: rgb(31 30 27 / 0.09);
   --select: #d6e0ea;
   --serif: "Source Serif", Charter, "Bitstream Charter", Georgia, serif;
+  /* The utility face is the reader's own system monospace: SF Mono on a Mac,
+     the same face Ultralight's window uses. */
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --lh: 1.5rem;
-  --u: calc(var(--lh) / 2);
-  --measure: 38rem;
-  --hang: 3.375rem;
-  --gutter: clamp(1rem, 6vw, 1.5rem);
+  --measure: 34rem;
+  --plate: 46rem;
+  --hang: 4.5rem;
+  --gutter: clamp(1.25rem, 6vw, 1.5rem);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #161514;
-    --ink: #e2dfd8;
-    --muted: #9c988e;
-    --link: #9fb9d5;
-    --rule: #535f6b;
+    --paper: #151413;
+    --ink: #e4e1da;
+    --muted: #9b978e;
+    --link: #a3bcd6;
+    --rule: #4f5b67;
+    --edge: rgb(228 225 218 / 0.1);
     --select: #33414f;
   }
   body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  /* The Boulder Roller study is a light interface; take the glare off it at night. */
+  img.study { filter: brightness(0.84) contrast(1.04); }
 }
 *, *::before, *::after { box-sizing: border-box; }
 html {
@@ -61,65 +68,81 @@ body {
 ::selection { background: var(--select); color: var(--ink); }
 main {
   box-sizing: content-box;
-  max-width: var(--measure);
-  padding: calc(var(--lh) * 3) var(--gutter);
-  padding-left: max(var(--gutter), (100% - var(--measure)) * 0.382);
+  max-width: var(--plate);
+  padding: calc(var(--lh) * 3) var(--gutter) calc(var(--lh) * 4);
+  padding-left: max(var(--gutter), (100% - var(--plate)) * 0.382);
 }
+h1, h2, p, figure { margin: 0; }
 h1 {
-  margin: 0;
-  font-size: 1.65rem;
+  font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.2;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.022em;
 }
-p, figure { margin: 0; }
-header { text-wrap: pretty; }
-.bio { margin-top: 0.35rem; }
-.elsewhere {
+.intro { max-width: var(--measure); }
+.intro p {
+  margin-top: 0.85rem;
+  text-wrap: pretty;
+}
+.intro .contact {
   display: flex;
   flex-wrap: wrap;
   column-gap: 1.5em;
   row-gap: max(0.8em, 44px - var(--lh));
-  margin-top: 1rem;
-  font-size: 0.875rem;
+  margin-top: 1.1rem;
 }
-.index, .prose { margin-top: 2.5rem; }
-.work { list-style: none; margin: 0; padding: 0; }
-.work > li {
-  display: block;
-}
-.work > li + li { margin-top: 2.25rem; }
-.year {
-  display: block;
-  margin-bottom: 0.4rem;
+.work { margin-top: 4rem; }
+.project + .project { margin-top: 4rem; }
+.project > :not(.plate) { max-width: var(--measure); }
+.year, .meta, figcaption {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.1rem;
+  letter-spacing: 0.01em;
   color: var(--muted);
-  font-size: 0.75rem;
-  font-variant-numeric: lining-nums tabular-nums;
+  font-variant-numeric: tabular-nums;
 }
-.project {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 1rem;
-  min-width: 0;
-}
+.year { margin-bottom: 0.35rem; }
 .project h2 {
-  margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 600;
   line-height: var(--lh);
   letter-spacing: -0.012em;
 }
 .description {
-  margin-top: 0.5rem;
-  font-size: 0.925rem;
-  line-height: 1.45rem;
+  margin-top: 0.45rem;
   text-wrap: pretty;
 }
-.status {
-  margin-top: 0.5rem;
-  color: var(--muted);
-  font-size: 0.75rem;
-  line-height: 1.2rem;
+.meta { margin-top: 0.5rem; }
+.plate { margin-top: 1.5rem; }
+figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.6rem;
+}
+.try {
+  display: none;
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--link);
+  font: inherit;
+  cursor: pointer;
+}
+.try::after {
+  content: "";
+  position: absolute;
+  inset: 50% -0.5em auto;
+  height: 44px;
+  transform: translateY(-50%);
+}
+.try:hover { color: var(--ink); }
+/* The playable study needs a mouse and a desktop-sized window; phones get the picture. */
+@media (min-width: 52em) and (hover: hover) and (pointer: fine) {
+  .try { display: inline; }
 }
 .artifact {
   --image-ratio: 5 / 3;
@@ -129,11 +152,19 @@ header { text-wrap: pretty; }
   padding: 0;
   border: 0;
   background: none;
-  border-radius: 3px;
+  border-radius: 4px;
   overflow: hidden;
   text-decoration: none;
   cursor: zoom-in;
   aspect-ratio: var(--image-ratio);
+}
+.artifact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--edge);
+  pointer-events: none;
 }
 .artifact img {
   position: absolute;
@@ -147,6 +178,9 @@ header { text-wrap: pretty; }
 .player-artifact {
   --image-ratio: 450 / 247;
   border-radius: 1.2% / 2.187%;
+}
+@media (min-width: 52em) and (hover: hover) and (pointer: fine) {
+  .player-artifact { cursor: pointer; }
 }
 .artifact.is-source img { visibility: hidden; }
 .detail-preview {
@@ -174,7 +208,7 @@ header { text-wrap: pretty; }
   position: relative;
   aspect-ratio: var(--image-ratio);
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: 4px;
   background: transparent;
 }
 .inspection-frame img {
@@ -198,7 +232,7 @@ header { text-wrap: pretty; }
   position: fixed;
   z-index: 2;
   overflow: hidden;
-  border-radius: 3px;
+  border-radius: 4px;
   pointer-events: none;
 }
 .image-flight img { position: absolute; display: block; max-width: none; }
@@ -240,9 +274,6 @@ header { text-wrap: pretty; }
   transition: opacity 180ms ease;
 }
 .preview-close:hover, .preview-footer button:hover { color: var(--ink); }
-.prose { max-width: 32rem; }
-.prose p { text-wrap: pretty; }
-.prose p + p { margin-top: var(--u); }
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -280,8 +311,9 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   text-decoration-color: currentColor;
   transition: none;
 }
-.elsewhere a, .project h2 a { position: relative; }
-.elsewhere a::after, .project h2 a::after {
+.artifact:focus-visible { border-radius: 4px; }
+.contact a, .project h2 a { position: relative; }
+.contact a::after, .project h2 a::after {
   content: "";
   position: absolute;
   inset: auto -0.3em;
@@ -290,21 +322,19 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   transform: translateY(-50%);
 }
 @media (min-width: 52em) {
-  :root { --hang: 3.75rem; }
   html { font-size: 112.5%; }
-  main { padding-top: calc(var(--lh) * 4); }
-  .work > li {
+  main { padding-top: calc(var(--lh) * 5); padding-bottom: calc(var(--lh) * 6); }
+  .work { margin-top: 5rem; }
+  .project + .project { margin-top: 5rem; }
+  /* Years hang in the left margin, set on the title's baseline. */
+  .project {
     display: grid;
     grid-template-columns: var(--hang) minmax(0, 1fr);
     align-items: baseline;
     margin-left: calc(var(--hang) * -1);
   }
-  .year { margin-bottom: 0; }
-  .project {
-    grid-template-columns: minmax(0, 1fr) 16rem;
-    gap: 2rem;
-    align-items: start;
-  }
+  .project > * { grid-column: 2; }
+  .project > .year { grid-column: 1; grid-row: 1; margin-bottom: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   a, .artifact img, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }

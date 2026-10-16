@@ -5,72 +5,67 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#161514" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="Tim Weigelt. I make things and ride bikes. Boulder Roller and Ultralight.">
-  <title>Tim Weigelt</title>
+  <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Tim Weigelt makes things and rides bikes. He is building Boulder Roller, a cycling app built around climbs, and made Ultralight, a 200 KB music player for the Mac.">
+  <title>timweigelt.com</title>
   <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=1b8b8e45c953">
+  <link rel="stylesheet" href="/style.css?v=ccd26fdb8933">
   <link rel="stylesheet" href="/ultralight.css?v=f389d8904190">
-  <script src="/preview.js?v=cf8379819471" defer></script>
-  <script src="/ultralight.js?v=fb3b0c7cbf51" type="module"></script>
+  <script src="/preview.js?v=14019d1a2027" defer></script>
+  <script src="/ultralight.js?v=f81d23b65fa3" type="module"></script>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
   <link rel="canonical" href="https://timweigelt.com/">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="timweigelt.com">
   <meta property="og:title" content="Tim Weigelt">
-  <meta property="og:description" content="Tim Weigelt. I make things and ride bikes. Boulder Roller and Ultralight.">
+  <meta property="og:description" content="I make things and ride bikes.">
   <meta property="og:url" content="https://timweigelt.com/">
+  <meta property="og:image" content="https://timweigelt.com/assets/share.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tim Weigelt. I make things and ride bikes.">
+  <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
-  <main class="home">
-    <header>
+  <main>
+    <header class="intro">
       <h1>Tim Weigelt</h1>
-      <p class="bio">I make things and ride bikes.</p>
-      <nav class="elsewhere" aria-label="Main navigation">
-        <a href="mailto:me@timweigelt.com">Email</a>
-        <a href="https://github.com/dungbeetlephoenix">GitHub</a>
-        <a href="/about">About</a>
-      </nav>
+      <p>I make things and ride bikes. I raced with CS Velo and have coached cyclists. These days I ride a few times a week, mostly solo.</p>
+      <p class="contact"><a href="mailto:me@timweigelt.com">me@timweigelt.com</a><a href="https://github.com/dungbeetlephoenix">GitHub</a></p>
     </header>
-    <section class="index" aria-label="Selected projects">
-      <ul class="work">
-        <li>
-          <span class="year"><span class="visually-hidden">Started in </span>2024<span aria-hidden="true">–</span><span class="visually-hidden">, ongoing</span></span>
-          <div class="project">
-            <div>
-              <h2><a href="https://boulderroller.xyz/">Boulder Roller</a></h2>
-              <p class="description">A cycling app where leaderboards pay riders in DUNG.</p>
-              <p class="status">Coming soon</p>
-            </div>
-            <figure>
-              <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge Boulder Roller interface study">
-                <img class="workshop" src="/assets/boulder-workshop.png" width="1960" height="1176" alt="A Boulder Roller interface study showing the route, climb results, and elevation profile together.">
-              </button>
-            </figure>
-          </div>
-        </li>
-        <li>
-          <!-- The date records the public repository year, not a release date. -->
-          <span class="year"><span class="visually-hidden">Repository created in </span>2026</span>
-          <div class="project">
-            <div>
-              <h2><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a></h2>
-              <p class="description">A native Mac music player with FLAC, automatic per-song EQ, and a live spectrum. 200 KB.</p>
-            </div>
-            <figure>
-              <button class="artifact player-artifact" type="button" data-player aria-haspopup="dialog" aria-label="Explore the Ultralight interface">
-                <img class="player" src="/assets/ultralight-native.png" width="2700" height="1482" alt="Ultralight’s native Mac interface, paused with its music library, per-song equalizer, audio analysis, and waveform visible." loading="lazy">
-              </button>
-            </figure>
-          </div>
-        </li>
-      </ul>
+    <section class="work" aria-label="Projects">
+      <article class="project">
+        <p class="year"><span class="visually-hidden">Started in </span>2024<span aria-hidden="true">–</span><span class="visually-hidden">, ongoing</span></p>
+        <h2><a href="https://boulderroller.xyz/">Boulder Roller</a></h2>
+        <p class="description">A cycling app built around climbs, with leaderboards that pay riders. It brings together racing, coaching, computers, and financial markets.</p>
+        <p class="meta">In development</p>
+        <figure class="plate">
+          <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge the Boulder Roller interface study">
+            <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
+          </button>
+          <figcaption>Ride page, interface study</figcaption>
+        </figure>
+      </article>
+      <article class="project">
+        <!-- The date records the public repository year, not a release date. -->
+        <p class="year"><span class="visually-hidden">Repository created in </span>2026</p>
+        <h2><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a></h2>
+        <p class="description">A native Mac music player with FLAC, automatic per-song EQ, and a live spectrum. It came out of wanting a smaller player; the whole app is 200 KB.</p>
+        <p class="meta">Swift and AppKit, no dependencies</p>
+        <figure class="plate">
+          <button class="artifact player-artifact" type="button" popovertarget="ultralight-preview" data-player aria-label="Enlarge the Ultralight screenshot">
+            <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s Mac window: a music library, the per-song equalizer, its sound analysis, and the waveform." loading="lazy">
+          </button>
+          <figcaption>Interface study<button class="try" type="button" data-player>Try the interface <span aria-hidden="true">→</span></button></figcaption>
+        </figure>
+      </article>
     </section>
   </main>
   <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller interface study">
     <div class="inspection-frame">
-      <img src="/assets/boulder-workshop.png" width="1960" height="1176" alt="Boulder Roller’s Ride V13 interface study: a retained historical ride, its route, climb results, and elevation profile.">
+      <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
     </div>
     <div class="preview-footer">
       <button type="button" data-fit aria-label="Fit full image" title="Fit full image (0)" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button>
@@ -78,12 +73,22 @@
     <button class="preview-close" type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
     <p class="visually-hidden" id="terrain-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
+  <div class="detail-preview player-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight screenshot">
+    <div class="inspection-frame">
+      <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s Mac window: a music library, the per-song equalizer, its sound analysis, and the waveform.">
+    </div>
+    <div class="preview-footer">
+      <button type="button" data-fit aria-label="Fit full image" title="Fit full image (0)" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button>
+    </div>
+    <button class="preview-close" type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
+    <p class="visually-hidden" id="player-inspection-hint">Pinch or click to zoom. Drag to pan. Escape closes the preview.</p>
+  </div>
   <dialog class="ultralight-dialog" aria-label="Ultralight interactive preview" aria-describedby="ultralight-note">
     <p class="visually-hidden" id="ultralight-note">Interactive preview without audio.</p>
     <div class="ultralight-context"><button type="button" class="ultralight-dismiss" aria-label="Close preview" title="Close (Esc)"><span aria-hidden="true">×</span></button></div>
     <div class="native-object">
       <div class="native-plane">
-        <img class="native-frame" src="/assets/ultralight-native.png" width="2700" height="1482" alt="Ultralight’s native Mac interface: the music library, eight-band EQ, analysis, waveform, and playback controls." draggable="false">
+        <img class="native-frame" src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s native Mac interface: the music library, eight-band EQ, analysis, waveform, and playback controls." draggable="false">
         <button class="native-hit native-window-close" type="button" aria-label="Close window" title="Close"></button>
         <button class="native-hit native-window-minimize" type="button" aria-label="Minimize window" title="Minimize"></button>
         <button class="native-hit native-window-enlarge" type="button" aria-label="Enlarge window" title="Enlarge"></button>

@@ -2,7 +2,6 @@
 /*
 !/.gitignore
 !/index.html
-!/about.html
 !/style.css
 !/prepare-public.py
 !/preview.js
@@ -22,6 +21,9 @@
 !/assets/boulder-workshop.png
 !/assets/ultralight.png
 !/assets/ultralight-native.png
+!/assets/boulder-workshop.webp
+!/assets/ultralight-native.webp
+!/assets/share.png
 !/assets/source-serif-regular.woff2
 !/assets/source-serif-semibold.woff2
 !/assets/source-serif-LICENSE.md

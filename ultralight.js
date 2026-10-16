@@ -271,7 +271,9 @@ async function closeStudy() {
   if (!closing) return;
   dialog.close(); document.body.classList.remove('has-player'); dialog.classList.remove('is-closing'); closing = false; opener?.focus({ preventScroll: true });
 }
-document.querySelectorAll('[data-player]').forEach(trigger => trigger.addEventListener('click', () => openStudy(trigger)));
+// Same query as preview.js, which shows the plain screenshot everywhere else.
+const studyMedia = matchMedia('(min-width: 52em) and (hover: hover) and (pointer: fine)');
+document.querySelectorAll('[data-player]').forEach(trigger => trigger.addEventListener('click', () => { if (studyMedia.matches) openStudy(trigger); }));
 $('.ultralight-dismiss').addEventListener('click', closeStudy);
 $('.native-window-close').addEventListener('click', closeStudy);
 $('.native-window-minimize').addEventListener('click', closeStudy);

@@ -7,8 +7,8 @@ import hashlib
 root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
-allowed = {"index.html", "about.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
-assets = {"assets/boulder-workshop.png", "assets/ultralight-native.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
+allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
+assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
 allowed.add("preview.js")
 player_files = {"ultralight.js", "ultralight.css", "ultralight-tracks.js", "ultralight-flair.js"}
@@ -19,7 +19,7 @@ if unexpected:
 
 # The approved pages are already publication-ready. Preserve their exact bytes.
 style_hashes = set()
-for name in ("index.html", "about.html"):
+for name in ("index.html",):
     source = (root / name).read_bytes()
     (public / name).write_bytes(source)
     for css in re.findall(rb"<style>(.*?)</style>", source, re.DOTALL):
@@ -40,7 +40,7 @@ for asset in assets:
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="robots" content="noindex">
-  <title>Page not found — Tim Weigelt</title>
+  <title>Page not found — timweigelt.com</title>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
@@ -71,6 +71,8 @@ for asset in assets:
   Content-Type: image/x-icon
 ''')
 (public / "_redirects").write_text('''# Hostname canonicalization is configured in Cloudflare Redirect Rules.
+# The about page folded into the home page.
+/about / 301
 ''')
 (public / "robots.txt").write_text('''User-agent: *
 Allow: /
@@ -80,11 +82,10 @@ Sitemap: https://timweigelt.com/sitemap.xml
 (public / "sitemap.xml").write_text('''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://timweigelt.com/</loc></url>
-  <url><loc>https://timweigelt.com/about</loc></url>
 </urlset>
 ''')
 assert {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} == allowed
-for name in ("index.html", "about.html"):
+for name in ("index.html",):
     assert (public / name).read_bytes() == (root / name).read_bytes()
     text = (public / name).read_text()
     assert 'noindex' not in text

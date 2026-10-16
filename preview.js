@@ -3,6 +3,8 @@
 
   const main = document.querySelector("main");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  // On phones the preview is barely larger than the inline image, so it opens zoomed.
+  const phone = matchMedia("(max-width: 40em)");
   let active = null;
   let request = 0;
 
@@ -184,6 +186,7 @@
       fly(controller, from, pictureBounds(frame, image), () => {
         controller.phase = "open";
         render();
+        if (phone.matches) zoom(2);
       });
     });
     popup.querySelector("[data-close]").addEventListener("click", (event) => {

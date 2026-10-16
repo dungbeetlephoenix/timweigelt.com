@@ -343,6 +343,17 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   .project > * { grid-column: 2; }
   .project > .year { grid-column: 1; grid-row: 1; }
 }
+/* Readers who ask for more contrast get ink for every grey. */
+@media (prefers-contrast: more) {
+  :root { --ink-2: var(--ink); --muted: var(--ink); --rule: var(--ink); }
+}
+@media print {
+  main { max-width: none; padding: 0; }
+  .work { margin-top: calc(var(--lh) * 2); }
+  .project + .project { margin-top: 0; break-before: page; }
+  .plate { break-inside: avoid; }
+  .window-artifact { box-shadow: none; }
+}
 /* Large monitors at 1x: one step up so the page doesn't shrink into a corner. */
 @media (min-width: 120em) {
   html { font-size: 125%; }

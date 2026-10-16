@@ -46,8 +46,10 @@ for asset in assets:
 </head>
 <body>
   <main>
-    <h1>Page not found.</h1>
-    <p>That page isn’t here. <a href="/">Return home</a>.</p>
+    <header class="intro">
+      <h1><strong>Page not found.</strong></h1>
+      <p class="dek">Nothing is published at this address. Go to the <a href="/">home page</a>.</p>
+    </header>
   </main>
 </body>
 </html>

@@ -104,7 +104,7 @@ h1, h2, p, dl, dd, figure { margin: 0; }
 h1 {
   font-size: 1.45rem;
   font-weight: 400;
-  line-height: 2rem;
+  line-height: calc(var(--quarter) * 5);
   letter-spacing: -0.01em;
   text-wrap: balance;
 }
@@ -128,18 +128,20 @@ h2 {
   font-variant-numeric: tabular-nums;
 }
 .index { margin-top: var(--lh); }
+.index dt { line-height: 1rem; }
 .index > div {
   display: grid;
   grid-template-columns: var(--hang) minmax(0, 1fr);
   align-items: baseline;
 }
 @media (pointer: coarse) {
-  .index > div + div { margin-top: max(var(--quarter), 44px - var(--lh)); }
+  .index > div + div { margin-top: calc(var(--half) + var(--quarter)); }
 }
 .work { margin-top: calc(var(--lh) * 3); }
 .project + .project { margin-top: calc(var(--lh) * 3); }
 .project > :not(.plate) { max-width: var(--measure); }
 .project > p:not(.year) { text-wrap: pretty; }
+.dek, .project > p:not(.year):not(.meta) { font-variant-numeric: oldstyle-nums proportional-nums; }
 .project h2 + p { margin-top: var(--quarter); }
 .project .meta { margin-top: var(--quarter); }
 .plate { margin-top: var(--lh); }
@@ -154,11 +156,18 @@ figcaption { margin-top: var(--quarter); }
   background: none;
   border-radius: 4px;
   overflow: hidden;
-  text-decoration: none;
   cursor: zoom-in;
   aspect-ratio: var(--image-ratio);
 }
-.artifact::after {
+/* Flipside's panel is shown at its real size: a 400 pt menu bar panel, 2x pixels. */
+.panel {
+  position: relative;
+  width: min(100%, 400px);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.panel img { display: block; width: 100%; height: auto; }
+.artifact::after, .panel::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -216,7 +225,15 @@ figcaption { margin-top: var(--quarter); }
   aspect-ratio: var(--image-ratio);
   overflow: hidden;
   border-radius: 4px;
-  background: transparent;
+}
+/* The enlarged view keeps the same 1px edge as the page. */
+.inspection-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px var(--edge);
+  pointer-events: none;
 }
 .inspection-frame img {
   position: absolute;
@@ -244,7 +261,7 @@ figcaption { margin-top: var(--quarter); }
 }
 .image-flight img { position: absolute; display: block; max-width: none; }
 .is-transitioning .inspection-frame { visibility: hidden; }
-.terrain-preview { --gallery-max: 980px; }
+.study-preview { --gallery-max: 980px; }
 .window-preview { --image-ratio: 1.821862; }
 .window-preview .inspection-frame { border-radius: 1.2% / 2.187%; }
 .is-transitioning .preview-footer, .is-closing .preview-close { opacity: 0; }
@@ -254,7 +271,6 @@ figcaption { margin-top: var(--quarter); }
   align-items: center;
   justify-content: flex-end;
   min-height: 44px;
-  font-size: 0.75rem;
   transition: opacity 180ms ease;
 }
 .preview-footer button, .preview-close {
@@ -314,23 +330,28 @@ a:active {
 a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   outline: 2px solid var(--focus);
   outline-offset: 0.2em;
-  border-radius: 2px;
   text-decoration-color: currentColor;
   transition: none;
 }
-.artifact:focus-visible { border-radius: 4px; }
-.index a, .project h2 a { position: relative; }
-.index a::after, .project h2 a::after {
-  content: "";
-  position: absolute;
-  inset: auto -0.3em;
-  top: 50%;
-  height: max(44px, calc(100% + 0.8em));
-  transform: translateY(-50%);
+a:focus-visible { border-radius: 2px; }
+@media (pointer: coarse) {
+  .index a, .project h2 a { position: relative; }
+  .index a::after, .project h2 a::after {
+    content: "";
+    position: absolute;
+    inset: auto -0.3em;
+    top: 50%;
+    height: max(44px, calc(100% + 0.8em));
+    transform: translateY(-50%);
+  }
 }
 @media (min-width: 52em) {
   html { font-size: 112.5%; }
-  main { padding-top: calc(var(--lh) * 5); padding-bottom: calc(var(--lh) * 6); }
+  main {
+    padding-top: calc(var(--lh) * 5);
+    padding-bottom: calc(var(--lh) * 6);
+    padding-left: max(var(--gutter) + var(--hang), (100% - var(--plate)) * 0.382);
+  }
   .work, .project + .project { margin-top: calc(var(--lh) * 4); }
   /* Labels and years hang in the left margin; the text column stays clean. */
   .index > div { margin-left: calc(var(--hang) * -1); }
@@ -341,11 +362,11 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
     margin-left: calc(var(--hang) * -1);
   }
   .project > * { grid-column: 2; }
-  .project > .year { grid-column: 1; grid-row: 1; }
+  .project > .year { grid-column: 1; grid-row: 1; line-height: 1rem; }
 }
 /* Readers who ask for more contrast get ink for every grey. */
 @media (prefers-contrast: more) {
-  :root { --ink-2: var(--ink); --muted: var(--ink); --rule: var(--ink); }
+  :root { --ink-2: var(--ink); --muted: var(--ink); --rule: var(--ink); --edge: var(--ink); --edge-hover: var(--ink); }
 }
 @media print {
   main { max-width: none; padding: 0; }
@@ -359,5 +380,5 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   html { font-size: 125%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  a, .artifact img, .artifact::after, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }
+  a, .artifact::after, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }
 }

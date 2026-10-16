@@ -8,7 +8,7 @@ root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
 allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon.svg", "favicon.ico", "favicon-earth.ico", "apple-touch-icon.png"}
-assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.jpg", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
+assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.jpg", "assets/flipside-panel.webp", "assets/flipside-panel-dark.webp", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
 allowed.add("preview.js")
 unexpected = {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} - allowed

@@ -12,6 +12,26 @@
   font-weight: 600;
   font-display: swap;
 }
+/* Until Source Serif arrives, Georgia stands in, scaled to the same widths
+   and line metrics so text does not rewrap when the web font loads. */
+@font-face {
+  font-family: "Source Serif Fallback";
+  src: local("Georgia");
+  font-weight: 400;
+  size-adjust: 101.23%;
+  ascent-override: 102.35%;
+  descent-override: 33.09%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Source Serif Fallback";
+  src: local("Georgia Bold"), local("Georgia-Bold");
+  font-weight: 600;
+  size-adjust: 88.48%;
+  ascent-override: 117.09%;
+  descent-override: 37.86%;
+  line-gap-override: 0%;
+}
 :root {
   color-scheme: light dark;
   --paper: #fcfbf9;
@@ -23,7 +43,7 @@
   --edge-hover: rgb(31 30 27 / 0.2);
   --focus: #2f5a82;
   --select: #d6e0ea;
-  --serif: "Source Serif", Charter, "Bitstream Charter", Georgia, serif;
+  --serif: "Source Serif", "Source Serif Fallback", Charter, "Bitstream Charter", Georgia, serif;
   /* The utility face is the reader's system monospace: SF Mono on a Mac. */
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   /* Vertical rhythm: every gap is a whole, half or quarter line. */
@@ -322,6 +342,10 @@ a:focus-visible, button:focus-visible, .inspection-frame:focus-visible {
   }
   .project > * { grid-column: 2; }
   .project > .year { grid-column: 1; grid-row: 1; }
+}
+/* Large monitors at 1x: one step up so the page doesn't shrink into a corner. */
+@media (min-width: 120em) {
+  html { font-size: 125%; }
 }
 @media (prefers-reduced-motion: reduce) {
   a, .artifact img, .artifact::after, .preview-footer, .preview-close, .detail-preview::backdrop { transition: none; }

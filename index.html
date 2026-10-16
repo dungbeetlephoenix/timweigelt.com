@@ -6,13 +6,11 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#fcfbf9" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
-  <meta name="description" content="Tim Weigelt makes things and rides bikes. He is building Boulder Roller, a cycling app built around climbs, and made Ultralight, a 200 KB music player for the Mac.">
+  <meta name="description" content="Tim Weigelt builds software and rides bikes. Boulder Roller is a cycling app built around climbs. Ultralight is a 200 KB music player for macOS.">
   <title>timweigelt.com</title>
   <link rel="preload" href="/assets/source-serif-regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=ccd26fdb8933">
-  <link rel="stylesheet" href="/ultralight.css?v=f389d8904190">
-  <script src="/preview.js?v=14019d1a2027" defer></script>
-  <script src="/ultralight.js?v=f81d23b65fa3" type="module"></script>
+  <link rel="stylesheet" href="/style.css?v=9f1dce6c152d">
+  <script src="/preview.js?v=5b3863f77a5e" defer></script>
   <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
   <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
@@ -20,50 +18,53 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="timweigelt.com">
   <meta property="og:title" content="Tim Weigelt">
-  <meta property="og:description" content="I make things and ride bikes.">
+  <meta property="og:description" content="Builds software and rides bikes.">
   <meta property="og:url" content="https://timweigelt.com/">
   <meta property="og:image" content="https://timweigelt.com/assets/share.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Tim Weigelt. I make things and ride bikes.">
+  <meta property="og:image:alt" content="Tim Weigelt. Builds software and rides bikes.">
   <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
   <main>
     <header class="intro">
       <h1>Tim Weigelt</h1>
-      <p>I make things and ride bikes. I raced with CS Velo and have coached cyclists. These days I ride a few times a week, mostly solo.</p>
-      <p class="contact"><a href="mailto:me@timweigelt.com">me@timweigelt.com</a><a href="https://github.com/dungbeetlephoenix">GitHub</a></p>
+      <p class="dek">Tim Weigelt builds software and rides bikes. Previously raced with CS Velo and coached cyclists.</p>
+      <dl class="index">
+        <div><dt>Email</dt><dd><a href="mailto:me@timweigelt.com">me@timweigelt.com</a></dd></div>
+        <div><dt>GitHub</dt><dd><a href="https://github.com/dungbeetlephoenix">dungbeetlephoenix</a></dd></div>
+      </dl>
     </header>
     <section class="work" aria-label="Projects">
       <article class="project">
         <p class="year"><span class="visually-hidden">Started in </span>2024<span aria-hidden="true">–</span><span class="visually-hidden">, ongoing</span></p>
         <h2><a href="https://boulderroller.xyz/">Boulder Roller</a></h2>
-        <p class="description">A cycling app built around climbs, with leaderboards that pay riders. It brings together racing, coaching, computers, and financial markets.</p>
+        <p>Boulder Roller is a cycling app built around climbs. Leaderboards pay riders.</p>
         <p class="meta">In development</p>
         <figure class="plate">
-          <button class="artifact terrain-artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge the Boulder Roller interface study">
+          <button class="artifact" type="button" popovertarget="boulder-preview" aria-label="Enlarge the Boulder Roller ride page">
             <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
           </button>
-          <figcaption>Ride page, interface study</figcaption>
+          <figcaption>Ride page, design study</figcaption>
         </figure>
       </article>
       <article class="project">
         <!-- The date records the public repository year, not a release date. -->
         <p class="year"><span class="visually-hidden">Repository created in </span>2026</p>
         <h2><a href="https://github.com/dungbeetlephoenix/ultralight-appkit">Ultralight</a></h2>
-        <p class="description">A native Mac music player with FLAC, automatic per-song EQ, and a live spectrum. It came out of wanting a smaller player; the whole app is 200 KB.</p>
-        <p class="meta">Swift and AppKit, no dependencies</p>
+        <p>Ultralight is a music player for macOS: FLAC playback, per-song EQ, and a live spectrum. 200 KB, no dependencies.</p>
+        <p class="meta">Experiment · Swift, AppKit</p>
         <figure class="plate">
-          <button class="artifact player-artifact" type="button" popovertarget="ultralight-preview" data-player aria-label="Enlarge the Ultralight screenshot">
-            <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s Mac window: a music library, the per-song equalizer, its sound analysis, and the waveform." loading="lazy">
+          <button class="artifact window-artifact" type="button" popovertarget="ultralight-preview" aria-label="Enlarge the Ultralight window">
+            <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-song equalizer, its sound analysis, and the waveform." loading="lazy">
           </button>
-          <figcaption>Interface study<button class="try" type="button" data-player>Try the interface <span aria-hidden="true">→</span></button></figcaption>
+          <figcaption>Main window</figcaption>
         </figure>
       </article>
     </section>
   </main>
-  <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller interface study">
+  <div class="detail-preview terrain-preview" id="boulder-preview" popover role="dialog" aria-label="Boulder Roller ride page">
     <div class="inspection-frame">
       <img class="study" src="/assets/boulder-workshop.webp" width="1960" height="1176" alt="A Boulder Roller ride page: the route on a map, the three climbs on the ride with times and watts, and the elevation profile.">
     </div>
@@ -73,74 +74,15 @@
     <button class="preview-close" type="button" data-close popovertarget="boulder-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
     <p class="visually-hidden" id="terrain-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
-  <div class="detail-preview player-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight screenshot">
+  <div class="detail-preview window-preview" id="ultralight-preview" popover role="dialog" aria-label="Ultralight window">
     <div class="inspection-frame">
-      <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s Mac window: a music library, the per-song equalizer, its sound analysis, and the waveform.">
+      <img src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s window: a music library, the per-song equalizer, its sound analysis, and the waveform.">
     </div>
     <div class="preview-footer">
       <button type="button" data-fit aria-label="Fit full image" title="Fit full image (0)" hidden><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 9V4h5m6 0h5v5m0 6v5h-5m-6 0H4v-5"/></svg></button>
     </div>
     <button class="preview-close" type="button" data-close popovertarget="ultralight-preview" popovertargetaction="hide" aria-label="Close preview" title="Close (Esc)" autofocus><span aria-hidden="true">×</span></button>
-    <p class="visually-hidden" id="player-inspection-hint">Pinch or click to zoom. Drag to pan. Escape closes the preview.</p>
+    <p class="visually-hidden" id="window-inspection-hint">Click to zoom. Drag or scroll to pan. Pinch to zoom. Plus and minus to zoom, arrow keys to pan, zero for the full view. Escape closes the preview.</p>
   </div>
-  <dialog class="ultralight-dialog" aria-label="Ultralight interactive preview" aria-describedby="ultralight-note">
-    <p class="visually-hidden" id="ultralight-note">Interactive preview without audio.</p>
-    <div class="ultralight-context"><button type="button" class="ultralight-dismiss" aria-label="Close preview" title="Close (Esc)"><span aria-hidden="true">×</span></button></div>
-    <div class="native-object">
-      <div class="native-plane">
-        <img class="native-frame" src="/assets/ultralight-native.webp" width="2700" height="1482" alt="Ultralight’s native Mac interface: the music library, eight-band EQ, analysis, waveform, and playback controls." draggable="false">
-        <button class="native-hit native-window-close" type="button" aria-label="Close window" title="Close"></button>
-        <button class="native-hit native-window-minimize" type="button" aria-label="Minimize window" title="Minimize"></button>
-        <button class="native-hit native-window-enlarge" type="button" aria-label="Enlarge window" title="Enlarge"></button>
-        <div class="native-title" hidden>Beach House – 10 – Irene</div>
-        <button class="native-hit native-settings-button" type="button" aria-label="Settings" aria-haspopup="dialog" aria-expanded="false" title="Settings"></button>
-        <div class="native-track-count">10 tracks</div>
-        <div class="native-library" role="listbox" aria-label="Music library"></div>
-        <section class="native-eq" aria-label="Equalizer">
-          <button class="native-eq-button native-auto" type="button" aria-label="Automatic EQ" aria-pressed="true" title="Toggle automatic EQ">AUTO</button>
-          <button class="native-eq-button native-reset" type="button" aria-label="Reset equalizer" title="Reset EQ">RST</button>
-          <button class="native-eq-button native-save" type="button" aria-label="Save equalizer" title="Save EQ">SAVE</button>
-          <div class="native-eq-paint" hidden></div>
-          <div class="native-eq-inputs"></div>
-          <input class="native-preamp" type="range" min="-12" max="12" step="0.5" value="0" aria-label="Preamp" title="Preamp">
-          <div class="native-preamp-paint" hidden><span>PRE</span><i></i><output>+0</output></div>
-          <div class="native-analysis-paint" hidden><div class="native-analysis-content"><p class="native-analysis-reason"></p><div class="native-analysis-badges"></div><p class="native-analysis-stats"></p></div></div>
-        </section>
-        <div class="native-eq-cover" hidden></div>
-        <div class="native-waveform" role="slider" tabindex="0" aria-label="Playback position" aria-valuemin="0" aria-valuemax="414.464" aria-valuenow="0" aria-valuetext="0 minutes 0 seconds"></div>
-        <div class="native-elapsed" hidden>0:00</div>
-        <div class="native-duration" hidden>6:54</div>
-        <div class="native-controls">
-          <button class="native-hit native-shuffle" type="button" aria-label="Shuffle" aria-pressed="false" title="Shuffle"><span hidden>⤮</span></button>
-          <button class="native-hit native-repeat" type="button" aria-label="Repeat" aria-pressed="false" title="Repeat"><span hidden>↻</span></button>
-          <button class="native-hit native-previous" type="button" aria-label="Previous track" title="Previous track"></button>
-          <button class="native-hit native-play" type="button" aria-label="Play button state" aria-pressed="false" title="Preview play button"><span hidden>⏸</span></button>
-          <button class="native-hit native-next" type="button" aria-label="Next track" title="Next track"></button>
-          <button class="native-hit native-show-eq" type="button" aria-label="Show equalizer" aria-pressed="true" title="Show or hide EQ"></button>
-        </div>
-        <input class="native-volume" type="range" min="0" max="100" value="80" aria-label="Volume" title="Volume">
-        <div class="native-volume-paint" hidden><i></i><output>80%</output></div>
-      </div>
-    </div>
-    <div class="ultralight-afterword"><button type="button" data-reset-study aria-label="Reset preview" title="Reset preview"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6"/></svg></button></div>
-    <div class="native-settings" role="dialog" aria-modal="true" aria-labelledby="native-settings-title" hidden>
-      <div class="native-settings-titlebar"><button type="button" data-settings-close aria-label="Close settings">×</button><h2 id="native-settings-title">Settings</h2></div>
-      <div class="native-settings-tabs" role="tablist" aria-label="Settings sections"><button type="button" role="tab" id="library-tab" aria-controls="library-settings" aria-selected="true">LIBRARY</button><button type="button" role="tab" id="flair-tab" aria-label="Glider" aria-controls="flair-settings" aria-selected="false" tabindex="-1"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m2 10 16-6-6 14-3-6Z"/><path d="m9 12 9-8"/></svg></button></div>
-      <div class="native-settings-content" role="tabpanel" id="library-settings" aria-labelledby="library-tab"><h3>MUSIC FOLDERS</h3><div class="native-folders"><span>Music / Beach House / Bloom</span><button type="button" data-folder-remove aria-label="Remove folder">✕</button></div><button type="button" class="native-add-folder">ADD FOLDER</button></div>
-      <div class="native-flair" role="tabpanel" id="flair-settings" aria-labelledby="flair-tab" hidden>
-        <div class="native-glider-stage" role="slider" tabindex="0" aria-label="Glider bank" aria-orientation="horizontal" aria-valuemin="-15" aria-valuemax="15" aria-valuenow="0" aria-valuetext="Level" aria-describedby="glider-hint">
-          <svg class="native-airspace" viewBox="0 0 350 190" aria-hidden="true">
-            <defs><linearGradient id="air-fade"><stop offset="0" stop-color="#62748b" stop-opacity="0"/><stop offset=".24" stop-color="#62748b" stop-opacity=".34"/><stop offset=".7" stop-color="#62748b" stop-opacity=".2"/><stop offset="1" stop-color="#62748b" stop-opacity="0"/></linearGradient><radialGradient id="glider-shadow"><stop stop-color="#000" stop-opacity=".8"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><linearGradient id="paper-light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff" stop-opacity=".12"/><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient></defs>
-            <g class="native-wind-lines"><path/><path/><path/><path/></g>
-            <ellipse class="native-flight-shadow" cx="175" cy="156" rx="67" ry="9" fill="url(#glider-shadow)"/>
-            <g class="native-folded-glider"></g>
-          </svg>
-        </div>
-        <div class="native-flair-controls"><div class="native-lift"><label for="native-lift">LIFT</label><input id="native-lift" type="range" min="0" max="100" value="30" aria-label="Glider lift"><output for="native-lift">30%</output></div><button type="button" class="native-gust" aria-label="Send a gust of wind"><svg viewBox="0 0 24 16" aria-hidden="true"><path d="M2 5h14a3 3 0 1 0-3-3M2 9h18M5 13h9a2 2 0 1 1-2 2"/></svg></button></div>
-        <p class="visually-hidden" id="glider-hint">Drag to bank. Release to glide. Arrow keys steer, Home levels the wings, and Space sends a gust of wind.</p>
-      </div>
-      <div class="native-folder-menu" hidden><p>Choose a music folder</p><button type="button" data-folder-add>Music / Beach House / Bloom</button><button type="button" data-folder-cancel>Cancel</button></div>
-    </div>
-  </dialog>
 </body>
 </html>

@@ -73,10 +73,6 @@
     });
   };
 
-  // Same query as ultralight.js: desktops with a mouse get the playable study,
-  // everything else gets the screenshot in this zoomable preview.
-  const studyMedia = matchMedia("(min-width: 52em) and (hover: hover) and (pointer: fine)");
-
   for (const trigger of document.querySelectorAll(".artifact[popovertarget]")) {
     const popup = document.getElementById(trigger.getAttribute("popovertarget"));
     const frame = popup.querySelector(".inspection-frame");
@@ -167,18 +163,8 @@
     const freeze = () => { pointers.clear(); gesture = null; setCamera({ ...camera }, true); };
     const controller = { popup, trigger, frame, image, reset, freeze, phase: "closed", motionId: 0, flight: null, settle: null };
 
-    if (trigger.hasAttribute("data-player")) {
-      const label = () => {
-        trigger.setAttribute("aria-label", studyMedia.matches ? "Try the Ultralight interface" : "Enlarge the Ultralight screenshot");
-        trigger.setAttribute("aria-haspopup", "dialog");
-      };
-      label();
-      studyMedia.addEventListener("change", label);
-    }
-
     trigger.addEventListener("click", async (event) => {
       event.preventDefault();
-      if (trigger.hasAttribute("data-player") && studyMedia.matches) return;
       const ticket = ++request;
       if (!image.complete || !image.naturalWidth) {
         await image.decode().catch(() => {});

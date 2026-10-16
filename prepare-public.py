@@ -11,8 +11,6 @@ allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "rob
 assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.png", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
 allowed.add("preview.js")
-player_files = {"ultralight.js", "ultralight.css", "ultralight-tracks.js", "ultralight-flair.js"}
-allowed |= player_files
 unexpected = {p.relative_to(public).as_posix() for p in public.rglob("*") if p.is_file()} - allowed
 if unexpected:
     raise SystemExit(f"Unexpected publication files: {sorted(unexpected)}")
@@ -27,7 +25,7 @@ for name in ("index.html",):
         style_hashes.add(f"'sha256-{digest}'")
 style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
-for asset in ("style.css", "preview.js", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png", *sorted(player_files)):
+for asset in ("style.css", "preview.js", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
 for asset in assets:
     target = public / asset

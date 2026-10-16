@@ -7,7 +7,7 @@ import hashlib
 root = Path(__file__).resolve().parent
 public = root / "public"
 public.mkdir(exist_ok=True)
-allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"}
+allowed = {"index.html", "style.css", "404.html", "_headers", "_redirects", "robots.txt", "sitemap.xml", "favicon.svg", "favicon.ico", "favicon-earth.ico", "apple-touch-icon.png"}
 assets = {"assets/boulder-workshop.webp", "assets/ultralight-native.webp", "assets/share.jpg", "assets/source-serif-regular.woff2", "assets/source-serif-semibold.woff2", "assets/source-serif-LICENSE.md"}
 allowed |= assets
 allowed.add("preview.js")
@@ -25,8 +25,11 @@ for name in ("index.html",):
         style_hashes.add(f"'sha256-{digest}'")
 style_sources = " ".join(["'self'", *sorted(style_hashes)])
 
-for asset in ("style.css", "preview.js", "favicon-unset.svg", "favicon-earth.svg", "favicon-earth.ico", "favicon.ico", "apple-touch-icon-earth.png"):
+for asset in ("style.css", "preview.js", "favicon.svg", "favicon.ico", "apple-touch-icon.png"):
     (public / asset).write_bytes((root / asset).read_bytes())
+# A Cloudflare redirect rule on timweigelt.com sends /favicon.ico to /favicon-earth.ico.
+# Serve the current icon at that path until the rule is removed.
+(public / "favicon-earth.ico").write_bytes((root / "favicon.ico").read_bytes())
 for asset in assets:
     target = public / asset
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -41,9 +44,9 @@ for asset in assets:
   <meta name="theme-color" content="#151413" media="(prefers-color-scheme: dark)">
   <meta name="robots" content="noindex">
   <title>Page not found — timweigelt.com</title>
-  <link rel="icon" href="/favicon-earth.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
-  <link rel="icon" href="/favicon-earth.svg" type="image/svg+xml" sizes="any">
-  <link rel="apple-touch-icon" href="/apple-touch-icon-earth.png" sizes="180x180">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16 32x32 48x48">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>timweigelt.com</title>
+  <!-- The share card's dawn sky, as a disc. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4d6580"/>
+      <stop offset=".38" stop-color="#7e93ab"/>
+      <stop offset=".66" stop-color="#b9bfca"/>
+      <stop offset=".88" stop-color="#e6d3c6"/>
+      <stop offset="1" stop-color="#f2dccb"/>
+    </linearGradient>
+    <radialGradient id="sun" cx=".78" cy="1.08" r=".7">
+      <stop offset="0" stop-color="#f7cdaa" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#f7cdaa" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="haze" cx=".18" cy="1.12" r=".6">
+      <stop offset="0" stop-color="#ecbaaa" stop-opacity=".8"/>
+      <stop offset="1" stop-color="#ecbaaa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="31" fill="url(#sky)"/>
+  <circle cx="32" cy="32" r="31" fill="url(#sun)"/>
+  <circle cx="32" cy="32" r="31" fill="url(#haze)"/>
+</svg>

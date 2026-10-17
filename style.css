@@ -159,12 +159,17 @@ figcaption { margin-top: var(--quarter); }
   cursor: zoom-in;
   aspect-ratio: var(--image-ratio);
 }
-/* Flipside's panel is shown at its real size: a 400 pt menu bar panel, 2x pixels. */
+/* Flipside's panel is shown at its real size: a 400 pt menu bar panel, 2x pixels,
+   captured from a real window, so it gets the same shadow as Ultralight's window. */
 .panel {
   position: relative;
   width: min(100%, 400px);
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 0.5px 1px rgb(0 0 0 / 0.2), 0 14px 36px -10px rgb(0 0 0 / 0.35);
+}
+@media (prefers-color-scheme: dark) {
+  .panel { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06), 0 14px 36px -10px rgb(0 0 0 / 0.6); }
 }
 .panel img { display: block; width: 100%; height: auto; }
 .artifact::after, .panel::after {
@@ -261,7 +266,8 @@ figcaption { margin-top: var(--quarter); }
 }
 .image-flight img { position: absolute; display: block; max-width: none; }
 .is-transitioning .inspection-frame { visibility: hidden; }
-.study-preview { --gallery-max: 980px; }
+.study-artifact { --image-ratio: 1960 / 1089; }
+.study-preview { --gallery-max: 980px; --image-ratio: 1.799816; }
 .window-preview { --image-ratio: 1.821862; }
 .window-preview .inspection-frame { border-radius: 1.2% / 2.187%; }
 .is-transitioning .preview-footer, .is-closing .preview-close { opacity: 0; }
@@ -373,7 +379,7 @@ a:focus-visible { border-radius: 2px; }
   .work { margin-top: calc(var(--lh) * 2); }
   .project + .project { margin-top: 0; break-before: page; }
   .plate { break-inside: avoid; }
-  .window-artifact { box-shadow: none; }
+  .window-artifact, .panel { box-shadow: none; }
 }
 /* Large monitors at 1x: one step up so the page doesn't shrink into a corner. */
 @media (min-width: 120em) {
